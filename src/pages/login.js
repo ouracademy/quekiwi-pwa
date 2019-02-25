@@ -1,35 +1,55 @@
-import React from "react"
+import React, { useState } from "react"
 import { Link } from "gatsby"
 
 import SEO from "../components/seo"
-import { Box, Button, Form, FormField, Heading, TextInput } from "grommet"
+import { Box, Button, Form, FormField, Heading } from "grommet"
+import { FormClock } from "grommet-icons"
 
 const LoginPage = () => (
-  <div>
+  <Box height="100vh" width="100vw" align="center" justify="center" pad="small">
     <SEO title="Login" keywords={[`login`, `quekiwi`, `libros`]} />
-    <Box fill align="center" justify="center" pad="small">
-      <Heading level={5}>Ingresa a Quekiwi</Heading>
-      <Box width="medium">
-        <Form onSubmit={({ value }) => console.log("Submit", value)}>
-          <FormField label="Correo" name="email" required type="email" />
-          <FormField
-            label="Escriba de nuevo su correo"
-            name="repeatEmail"
-            required
-            type="email"
-          />
-          <FormField label="Contraseña" name="password" required>
-            <TextInput type="password" />
-          </FormField>
-          <Box direction="row" justify="between" margin={{ top: "medium" }}>
-            <Button type="submit" label="Ingresar" primary />
-          </Box>
-        </Form>
-        <Suggestion />
-      </Box>
+    <Heading level={5}>Ingresa a Quekiwi</Heading>
+    <Box width="medium">
+      <LoginForm />
+      <Suggestion />
     </Box>
-  </div>
+  </Box>
 )
+
+const LoginForm = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const submit = ({ value }) => {
+    setIsSubmitting(true)
+    setTimeout(() => {
+      console.log("Submit", value)
+      setIsSubmitting(false)
+    }, 2000)
+  }
+  const loginData = { name: "", email: "", repeatedEmail: "" }
+
+  return (
+    <Form onSubmit={submit} value={loginData}>
+      <FormField label="Correo" name="email" required type="email" />
+      <FormField
+        name="repeatedEmail"
+        required
+        label="Escriba de nuevo su correo"
+        type="email"
+        validate={(repeatedEmail, form) =>
+          form.email !== repeatedEmail && "Sus correos no coinciden"
+        }
+      />
+      <FormField label="Contraseña" required name="password" type="password" />
+      <Box direction="row" justify="center" margin={{ top: "medium" }}>
+        {isSubmitting ? (
+          <FormClock />
+        ) : (
+          <Button type="submit" fill label="Ingresar" primary />
+        )}
+      </Box>
+    </Form>
+  )
+}
 
 const Suggestion = () => (
   <p>
