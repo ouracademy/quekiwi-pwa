@@ -1,3 +1,19 @@
 {
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "cSpell.language": "en,es",
+  "emojisense.languages": {
+    "markdown": true,
+    "plaintext": {
+      "markupCompletionsEnabled": false,
+      "emojiDecoratorsEnabled": false
+    },
+    "git-commit": true,
+    "javascript": {
+      "javascriptreact": true
+    }
+  },
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact"
+  },
+  "cSpell.words": ["quekiwi", "siguenos"]
 }
