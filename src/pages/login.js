@@ -4,11 +4,16 @@ import { Link } from "gatsby"
 import SEO from "../components/seo"
 import { Box, Button, Form, FormField, Heading } from "grommet"
 import { FormClock } from "grommet-icons"
+import { navigate } from "gatsby"
+
+const axios = require("axios")
+
+axios.defaults.baseURL = "http://localhost:3000"
 
 const LoginPage = () => (
   <Box height="100vh" width="100vw" align="center" justify="center" pad="small">
     <SEO title="Login" keywords={[`login`, `quekiwi`, `libros`]} />
-    <Heading level={5}>Ingresa a Quekiwi</Heading>
+    <Heading level={4}>Ingresa a Quekiwi</Heading>
     <Box width="medium">
       <LoginForm />
       <Suggestion />
@@ -20,25 +25,26 @@ const LoginForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const submit = ({ value }) => {
     setIsSubmitting(true)
-    setTimeout(() => {
-      console.log("Submit", value)
-      setIsSubmitting(false)
-    }, 2000)
+    axios
+      .post("/auth/login", value)
+      .then(response => {
+        window.localStorage.setItem("token", response.data.token)
+        setIsSubmitting(false)
+        navigate("/main")
+      })
+      .catch(error => {
+        if (error.response) {
+          const dataError = error.response.data
+          alert(dataError.message)
+        }
+        setIsSubmitting(false)
+      })
   }
-  const loginData = { name: "", email: "", repeatedEmail: "" }
+  const loginData = { name: "", email: "" }
 
   return (
     <Form onSubmit={submit} value={loginData}>
       <FormField label="Correo" name="email" required type="email" />
-      <FormField
-        name="repeatedEmail"
-        required
-        label="Escriba de nuevo su correo"
-        type="email"
-        validate={(repeatedEmail, form) =>
-          form.email !== repeatedEmail && "Sus correos no coinciden"
-        }
-      />
       <FormField label="Contraseña" required name="password" type="password" />
       <Box direction="row" justify="center" margin={{ top: "medium" }}>
         {isSubmitting ? (
