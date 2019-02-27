@@ -9,8 +9,6 @@ import { toast } from "react-toastify"
 
 const axios = require("axios")
 
-axios.defaults.baseURL = "http://localhost:3000"
-
 const LoginPage = () => (
   <Box height="100vh" width="100vw" align="center" justify="center" pad="small">
     <SEO title="Login" keywords={[`login`, `quekiwi`, `libros`]} />

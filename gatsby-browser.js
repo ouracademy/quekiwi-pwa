@@ -9,6 +9,10 @@ import React from "react"
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
+const axios = require("axios")
+
+axios.defaults.baseURL = "http://localhost:3000"
+
 export const wrapRootElement = ({ element }) => {
   return (
     <div>
