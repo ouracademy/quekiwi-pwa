@@ -1,17 +1,12 @@
 import React from "react"
 import { Provider } from "react-redux"
-import { createStore as reduxCreateStore } from "redux"
-import rootReducer from "."
+import { configureStore } from "./configureStore"
 
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
-const axios = require("axios")
-axios.defaults.baseURL = "http://localhost:3000"
-
-const createStore = () => reduxCreateStore(rootReducer)
 export default ({ element }) => (
-  <Provider store={createStore()}>
+  <Provider store={configureStore()}>
     <ToastContainer
       position="top-center"
       autoClose={false}
