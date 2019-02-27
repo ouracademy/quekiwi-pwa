@@ -5,7 +5,7 @@ import SEO from "../components/seo"
 import { Box, Button, Form, FormField, Heading } from "grommet"
 import { FormClock } from "grommet-icons"
 import { navigate } from "gatsby"
-
+import { toast } from "react-toastify"
 const axios = require("axios")
 
 axios.defaults.baseURL = "http://localhost:3000"
@@ -33,7 +33,7 @@ const RegisterForm = () => {
     } catch (error) {
       if (error.response) {
         const dataError = error.response.data
-        alert(dataError.message)
+        toast.error(dataError.message || "Ups, ocurrio un error")
       }
     } finally {
       setIsSubmitting(false)
