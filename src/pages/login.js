@@ -4,40 +4,26 @@ import { Link } from "gatsby"
 import SEO from "../components/seo"
 import { Box, Button, Form, FormField, Heading } from "grommet"
 import { FormClock } from "grommet-icons"
-import { navigate } from "gatsby"
-import { toast } from "react-toastify"
+import { connect } from "react-redux"
+import { login } from "../state/actions"
 
-const axios = require("axios")
-
-const LoginPage = () => (
+const LoginPage = ({ dispatch }) => (
   <Box height="100vh" width="100vw" align="center" justify="center" pad="small">
     <SEO title="Login" keywords={[`login`, `quekiwi`, `libros`]} />
     <Heading level={4}>Ingresa a Quekiwi</Heading>
     <Box width="medium">
-      <LoginForm />
+      <LoginForm dispatch={dispatch} />
       <Suggestion />
     </Box>
   </Box>
 )
 
-const LoginForm = () => {
+const LoginForm = ({ dispatch }) => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const submit = ({ value }) => {
     setIsSubmitting(true)
-    axios
-      .post("/auth/login", value)
-      .then(response => {
-        window.localStorage.setItem("token", response.data.token)
-        setIsSubmitting(false)
-        navigate("/main")
-      })
-      .catch(error => {
-        if (error.response) {
-          const dataError = error.response.data
-          toast.error(dataError.message || "Ups, ocurrio un error")
-        }
-        setIsSubmitting(false)
-      })
+    dispatch(login(value))
+    setIsSubmitting(false)
   }
   const loginData = { name: "", email: "" }
 
@@ -65,4 +51,4 @@ const Suggestion = () => (
   </p>
 )
 
-export default LoginPage
+export default connect()(LoginPage)
