@@ -42,7 +42,7 @@ const LoginForm = ({ dispatch }) => {
   )
 }
 
-const Suggestion = () => (
+export const Suggestion = () => (
   <p>
     <Link to="/sign-up">¿Aún no tengo cuenta?</Link> Pero deseo registrarme{" "}
     <span role="img" aria-label="feliz">

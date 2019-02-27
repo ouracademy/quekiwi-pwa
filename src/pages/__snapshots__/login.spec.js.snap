@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Suggestion renders correctly 1`] = `
+<p>
+  <a
+    href="/sign-up"
+  >
+    ¿Aún no tengo cuenta?
+  </a>
+   Pero deseo registrarme
+   
+  <span
+    aria-label="feliz"
+    role="img"
+  >
+    🙂
+  </span>
+</p>
+`;
