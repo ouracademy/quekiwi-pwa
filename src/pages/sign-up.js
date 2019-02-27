@@ -23,22 +23,21 @@ const SignupPage = () => (
 
 const RegisterForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const submit = ({ value }) => {
+  const submit = async ({ value }) => {
     setIsSubmitting(true)
-    axios
-      .post("/auth/signup", value)
-      .then(response => {
-        window.localStorage.setItem("token", response.data.token)
-        setIsSubmitting(false)
-        navigate("/main")
-      })
-      .catch(error => {
-        if (error.response) {
-          const dataError = error.response.data
-          alert(dataError.message)
-        }
-        setIsSubmitting(false)
-      })
+
+    try {
+      const { data } = await axios.post("/auth/signup", value)
+      window.localStorage.setItem("token", data.token)
+      navigate("/main")
+    } catch (error) {
+      if (error.response) {
+        const dataError = error.response.data
+        alert(dataError.message)
+      }
+    } finally {
+      setIsSubmitting(false)
+    }
   }
   const signupData = { name: "", email: "", repeatedEmail: "" }
 
