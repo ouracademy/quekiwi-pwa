@@ -9,7 +9,6 @@ export default ({ element }) => (
   <Provider store={configureStore()}>
     <ToastContainer
       position="top-center"
-      autoClose={false}
       newestOnTop={false}
       closeOnClick
       rtl={false}
