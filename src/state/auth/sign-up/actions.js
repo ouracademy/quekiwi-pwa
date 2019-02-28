@@ -1,15 +1,8 @@
-export const SIGNUP_REQUESTED = "SIGNUP_REQUESTED"
-export const SIGNUP_SUCCESSFULLY = "SIGNUP_SUCCESSFULLY"
-export const SIGNUP_FAILED = "SIGNUP_FAILED"
+import { getStandardFor } from "../../standard"
 
-export const signUp = user => ({
-  type: SIGNUP_REQUESTED,
-  payload: user,
-})
+const { actionTypes, actionCreators, reducer } = getStandardFor("SIGNUP")
 
-export const signupSuccessFully = ({ response }) => ({
-  type: SIGNUP_SUCCESSFULLY,
-  payload: {
-    token: response.token,
-  },
-})
+export const [SIGNUP_REQUESTED] = actionTypes
+export const [signUp, signUpSuccessFully, signUpFailed] = actionCreators
+
+export { reducer }

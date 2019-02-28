@@ -1,15 +1,8 @@
-export const LOGIN_REQUESTED = "LOGIN"
-export const LOGIN_SUCCESSFULLY = "LOGIN_SUCCESSFULLY"
-export const LOGIN_FAILED = "LOGIN_FAILED"
+import { getStandardFor } from "../../standard"
 
-export const login = credentials => ({
-  type: LOGIN_REQUESTED,
-  payload: credentials,
-})
+const { actionTypes, actionCreators, reducer } = getStandardFor("LOGIN")
 
-export const loginSuccessFully = ({ response }) => ({
-  type: LOGIN_SUCCESSFULLY,
-  payload: {
-    token: response.token,
-  },
-})
+export const [LOGIN_REQUESTED] = actionTypes
+export const [login, loginSuccessFully, loginFailed] = actionCreators
+
+export { reducer }

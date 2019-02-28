@@ -2,7 +2,7 @@ import { ofType } from "redux-observable"
 import { ajax } from "rxjs/ajax"
 import { mergeMap, map, catchError } from "rxjs/operators"
 import { of } from "rxjs"
-import { LOGIN_REQUESTED, LOGIN_FAILED, loginSuccessFully } from "./actions"
+import { LOGIN_REQUESTED, loginFailed, loginSuccessFully } from "./actions"
 
 export const loginEpic = action$ =>
   action$.pipe(
@@ -10,12 +10,7 @@ export const loginEpic = action$ =>
     mergeMap(action =>
       ajax.post("http://localhost:3000/auth/login", action.payload).pipe(
         map(loginSuccessFully),
-        catchError(error =>
-          of({
-            type: LOGIN_FAILED,
-            payload: error.response.message || "Ups, ocurrió un error",
-          })
-        )
+        catchError(error => of(loginFailed(error)))
       )
     )
   )
