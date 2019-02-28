@@ -5,7 +5,7 @@ import { Box, Button, Form, FormField, Heading } from "grommet"
 import { FormClock } from "grommet-icons"
 import { connect } from "react-redux"
 import SEO from "../components/seo"
-import { signUp } from "../state/sign-up/actions"
+import { signUp } from "../state/auth/sign-up/actions"
 
 const SignupPage = ({ loading, logged, error, signUp }) => {
   useEffect(() => {
@@ -73,10 +73,10 @@ const Suggestion = () => (
   </p>
 )
 
-const mapStateToProps = ({ signUp }) => ({
-  loading: signUp.loading,
-  error: signUp.error,
-  logged: signUp.logged,
+const mapStateToProps = ({ auth }) => ({
+  loading: auth.loading,
+  error: auth.error,
+  logged: auth.logged,
 })
 
 export default connect(

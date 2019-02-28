@@ -7,7 +7,7 @@ import { navigate } from "gatsby"
 import { toast } from "react-toastify"
 
 import SEO from "../components/seo"
-import { login } from "../state/login/actions"
+import { login } from "../state/auth/login/actions"
 
 const LoginPage = ({ login, loading, logged, error }) => {
   useEffect(() => {
@@ -65,10 +65,10 @@ export const Suggestion = () => (
   </p>
 )
 
-const mapStateToProps = ({ user }) => ({
-  loading: user.loading,
-  error: user.error,
-  logged: user.logged,
+const mapStateToProps = ({ auth }) => ({
+  loading: auth.loading,
+  error: auth.error,
+  logged: auth.logged,
 })
 
 export default connect(

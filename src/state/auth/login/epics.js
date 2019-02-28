@@ -2,11 +2,11 @@ import { ofType } from "redux-observable"
 import { ajax } from "rxjs/ajax"
 import { mergeMap, map, catchError } from "rxjs/operators"
 import { of } from "rxjs"
-import { LOGIN, LOGIN_FAILED, loginSuccessFully } from "./actions"
+import { LOGIN_REQUESTED, LOGIN_FAILED, loginSuccessFully } from "./actions"
 
 export const loginEpic = action$ =>
   action$.pipe(
-    ofType(LOGIN),
+    ofType(LOGIN_REQUESTED),
     mergeMap(action =>
       ajax.post("http://localhost:3000/auth/login", action.payload).pipe(
         map(loginSuccessFully),

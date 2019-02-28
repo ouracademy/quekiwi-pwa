@@ -1,9 +1,9 @@
-export const SIGNUP = "SIGNUP"
+export const SIGNUP_REQUESTED = "SIGNUP_REQUESTED"
 export const SIGNUP_SUCCESSFULLY = "SIGNUP_SUCCESSFULLY"
 export const SIGNUP_FAILED = "SIGNUP_FAILED"
 
 export const signUp = user => ({
-  type: SIGNUP,
+  type: SIGNUP_REQUESTED,
   payload: user,
 })
 

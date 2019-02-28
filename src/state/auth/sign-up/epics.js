@@ -2,11 +2,11 @@ import { ofType } from "redux-observable"
 import { ajax } from "rxjs/ajax"
 import { mergeMap, map, catchError } from "rxjs/operators"
 import { of } from "rxjs"
-import { SIGNUP, SIGNUP_FAILED, signupSuccessFully } from "./actions"
+import { SIGNUP_REQUESTED, SIGNUP_FAILED, signupSuccessFully } from "./actions"
 
 export const signUpEpic = action$ =>
   action$.pipe(
-    ofType(SIGNUP),
+    ofType(SIGNUP_REQUESTED),
     mergeMap(action =>
       ajax.post("http://localhost:3000/auth/signup", action.payload).pipe(
         map(signupSuccessFully),
