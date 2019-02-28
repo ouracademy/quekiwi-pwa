@@ -6,14 +6,29 @@ import SEO from "../components/seo"
 
 const SearchResult = ({ books }) => {
   const bookList = books.map((book, index) => (
-    <Box padding="small">
-      <Heading level={5} margin="none">
+    <Box
+      pad="medium"
+      direction="column"
+      width="large"
+      height="small"
+      elevation="small"
+    >
+      <Heading color="neutral-1" level={5}>
         {book.title}
+      </Heading>
+      <Heading color="neutral-1" level={6}>
+        {book.author}
       </Heading>
     </Box>
   ))
   return (
-    <Box align="center" justify="center" pad="small" direction="column">
+    <Box
+      align="center"
+      justify="center"
+      pad="small"
+      gap="small"
+      direction="column"
+    >
       {bookList}
     </Box>
   )
@@ -22,10 +37,10 @@ const SearchInput = ({ search }) => (
   <Box
     align="center"
     justify="center"
-    pad="small"
     width="large"
     direction="row"
     align="center"
+    margin="medium"
     pad={{ horizontal: "small", vertical: "xsmall" }}
     round="small"
     elevation="small"
@@ -47,14 +62,18 @@ const SearchInput = ({ search }) => (
 const MainPage = () => {
   const allBooks = [
     {
-      authors: "Must Read Summaries",
-
+      author: "Must Read Summaries",
       title: "The Lean Startup  Eric Ries",
+      provider: "Amazonas E4",
+      price: "20.00",
+      features: ["paperWhite", "new"],
     },
     {
-      authors: "Instaread",
-
+      author: "Instaread",
       title: "Summary of The Lean Startup",
+      provider: "Amazonas B1",
+      price: "10.00",
+      features: ["paperWhite", "used"],
     },
   ]
 
