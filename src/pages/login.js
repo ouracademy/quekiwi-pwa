@@ -41,10 +41,8 @@ const LoginForm = ({ login, loading }) => {
     login(value)
   }
 
-  const loginData = { email: "", password: "" }
-
   return (
-    <Form onSubmit={submit} value={loginData}>
+    <Form onSubmit={submit}>
       <FormField label="Correo" name="email" required type="email" />
       <FormField label="Contraseña" required name="password" type="password" />
       <Box direction="row" justify="center" margin={{ top: "medium" }}>
