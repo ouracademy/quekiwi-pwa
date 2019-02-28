@@ -9,7 +9,7 @@ import { signUp } from "../state/auth/sign-up/actions"
 
 const SignupPage = ({ loading, logged, error, signUp }) => {
   useEffect(() => {
-    if (logged) navigate("/main")
+    if (logged) navigate("/")
   })
 
   useEffect(() => {

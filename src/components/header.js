@@ -3,8 +3,9 @@ import React from "react"
 import { Box, Anchor, Button, ResponsiveContext, Text } from "grommet"
 import { Grow } from "grommet-icons"
 import { navigate } from "gatsby"
+import { connect } from "react-redux"
 
-const Header = ({ siteTitle }) => (
+const Header = ({ siteTitle, logged }) => (
   <header>
     <ResponsiveContext.Consumer>
       {size => (
@@ -22,17 +23,23 @@ const Header = ({ siteTitle }) => (
             icon={<Grow size="large" />}
             label={size !== "small" && <Text size="xlarge">{siteTitle}</Text>}
           />
-          <Actions />
+          <Actions isLogged={logged} />
         </Box>
       )}
     </ResponsiveContext.Consumer>
   </header>
 )
 
-const Actions = () => (
+const Actions = ({ isLogged }) => (
   <Box direction="row" gap="small">
-    <RoundedButton text="Ingresar" href="/login" />
-    <RoundedButton text="Registrate" href="/sign-up" color="light-2" />
+    {isLogged ? (
+      <p>Bienvenido :)</p>
+    ) : (
+      [
+        <RoundedButton text="Ingresar" href="/login" />,
+        <RoundedButton text="Registrate" href="/sign-up" color="light-2" />,
+      ]
+    )}
   </Box>
 )
 
@@ -56,4 +63,11 @@ Header.defaultProps = {
   siteTitle: ``,
 }
 
-export default Header
+const mapStateToProps = ({ auth }) => ({
+  logged: auth.logged,
+})
+
+export default connect(
+  mapStateToProps,
+  null
+)(Header)
