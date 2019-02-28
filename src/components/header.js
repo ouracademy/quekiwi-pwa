@@ -31,16 +31,16 @@ const Header = ({ siteTitle, logged }) => (
 )
 
 const Actions = ({ isLogged }) => (
-  <Box direction="row" gap="small">
+  <div>
     {isLogged ? (
       <p>Bienvenido :)</p>
     ) : (
-      [
-        <RoundedButton text="Ingresar" href="/login" />,
-        <RoundedButton text="Registrate" href="/sign-up" color="light-2" />,
-      ]
+      <Box direction="row" gap="small">
+        <RoundedButton text="Ingresar" href="/login" />
+        <RoundedButton text="Registrate" href="/sign-up" color="light-2" />
+      </Box>
     )}
-  </Box>
+  </div>
 )
 
 const RoundedButton = ({ text, href, color = "brand" }) => (
