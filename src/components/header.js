@@ -1,11 +1,12 @@
 import PropTypes from "prop-types"
 import React from "react"
-import { Box, Anchor, Button, ResponsiveContext, Text } from "grommet"
+import { Box, Anchor, Button, ResponsiveContext, Text, Menu } from "grommet"
 import { Grow } from "grommet-icons"
 import { navigate } from "gatsby"
 import { connect } from "react-redux"
+import { logout } from "../state/auth/logout"
 
-const Header = ({ siteTitle, logged }) => (
+const Header = ({ siteTitle, logged, logout }) => (
   <header>
     <ResponsiveContext.Consumer>
       {size => (
@@ -23,26 +24,28 @@ const Header = ({ siteTitle, logged }) => (
             icon={<Grow size="large" />}
             label={size !== "small" && <Text size="xlarge">{siteTitle}</Text>}
           />
-          <Actions isLogged={logged} />
+          <Actions logged={logged} logout={logout} />
         </Box>
       )}
     </ResponsiveContext.Consumer>
   </header>
 )
 
-const Actions = ({ isLogged }) => (
-  <Box direction="row" gap="small">
-    {isLogged ? (
-      <p>Bienvenido :)</p>
+const Actions = ({ logged, logout }) => (
+  <div>
+    {logged ? (
+      <Menu
+        label="Bienvenido :)"
+        items={[{ label: "Salir", onClick: () => logout() }]}
+      />
     ) : (
-      [
-        <RoundedButton text="Ingresar" href="/login" />,
-        <RoundedButton text="Registrate" href="/sign-up" color="light-2" />,
-      ]
+      <Box direction="row" gap="small">
+        <RoundedButton text="Ingresar" href="/login" />
+        <RoundedButton text="Registrate" href="/sign-up" color="light-2" />
+      </Box>
     )}
-  </Box>
+  </div>
 )
-
 const RoundedButton = ({ text, href, color = "brand" }) => (
   <Button onClick={() => navigate(href)} plain>
     <Box
@@ -69,5 +72,5 @@ const mapStateToProps = ({ auth }) => ({
 
 export default connect(
   mapStateToProps,
-  null
+  { logout }
 )(Header)
