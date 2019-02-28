@@ -1,8 +1,7 @@
 import React, { useState } from "react"
 import { Box, TextInput, Heading } from "grommet"
 import { Search } from "grommet-icons"
-import Layout from "../components/layout"
-import SEO from "../components/seo"
+import SEO from "./seo"
 
 const SearchResult = ({ books }) => {
   const bookList = books.map((book, index) => (
@@ -59,7 +58,7 @@ const SearchInput = ({ search }) => (
   </Box>
 )
 
-const MainPage = () => {
+export const DashBoard = () => {
   const allBooks = [
     {
       author: "Must Read Summaries",
@@ -84,7 +83,7 @@ const MainPage = () => {
   }
 
   return (
-    <Layout>
+    <>
       <SEO title="Buscador" keywords={[`buscador`, `quekiwi`, `libros`]} />
       <Box
         height="xlarge"
@@ -96,8 +95,6 @@ const MainPage = () => {
         <SearchInput search={search} />
         <SearchResult books={books} />
       </Box>
-    </Layout>
+    </>
   )
 }
-
-export default MainPage

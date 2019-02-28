@@ -1,25 +1,17 @@
 import React from "react"
-import { Link } from "gatsby"
 
 import Layout from "../components/layout"
-import Image from "../components/image"
-import SEO from "../components/seo"
-import { Box, Button } from "grommet"
+import { connect } from "react-redux"
+import { Home } from "../components/home"
+import { DashBoard } from "../components/dashboard"
 
-const IndexPage = () => (
-  <Layout>
-    <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
-    <Box height="xlarge" fill align="center" justify="center" direction="row">
-      <Box>
-        <h1>Un lugar donde están </h1>
-        <h1> los libros</h1>
-      </Box>
-
-      <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
-        <Image />
-      </div>
-    </Box>
-  </Layout>
+const IndexPage = ({ logged }) => (
+  <Layout>{logged ? <DashBoard /> : <Home />}</Layout>
 )
 
-export default IndexPage
+const mapStateToProps = ({ auth: { logged } }) => ({ logged })
+
+export default connect(
+  mapStateToProps,
+  null
+)(IndexPage)
