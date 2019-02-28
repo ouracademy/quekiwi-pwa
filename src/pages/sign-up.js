@@ -1,48 +1,47 @@
-import React, { useState } from "react"
-import { Link } from "gatsby"
-
-import SEO from "../components/seo"
+import React, { useEffect } from "react"
+import { Link, navigate } from "gatsby"
+import { toast } from "react-toastify"
 import { Box, Button, Form, FormField, Heading } from "grommet"
 import { FormClock } from "grommet-icons"
-import { navigate } from "gatsby"
-import { toast } from "react-toastify"
+import { connect } from "react-redux"
+import SEO from "../components/seo"
+import { signUp } from "../state/sign-up/actions"
 
-const axios = require("axios")
-axios.defaults.baseURL = "http://localhost:3000"
+const SignupPage = ({ loading, logged, error, signUp }) => {
+  useEffect(() => {
+    if (logged) navigate("/main")
+  })
 
-const SignupPage = () => (
-  <Box height="100vh" width="100vw" align="center" justify="center" pad="small">
-    <SEO title="Login" keywords={[`register`, `quekiwi`, `libros`]} />
-    <Heading level={5}>Regístrate en Quekiwi</Heading>
-    <Box width="medium">
-      <RegisterForm />
-      <Suggestion />
-    </Box>
-  </Box>
-)
-
-const RegisterForm = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const submit = async ({ value }) => {
-    setIsSubmitting(true)
-
-    try {
-      const { data } = await axios.post("/auth/signup", value)
-      window.localStorage.setItem("token", data.token)
-      navigate("/main")
-    } catch (error) {
-      if (error.response) {
-        const dataError = error.response.data
-        toast.error(dataError.message || "Ups, ocurrio un error")
-      }
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
-  const signupData = { name: "", email: "", repeatedEmail: "" }
+  useEffect(() => {
+    if (error) toast.error(error)
+  })
 
   return (
-    <Form onSubmit={submit} value={signupData}>
+    <Box
+      height="100vh"
+      width="100vw"
+      align="center"
+      justify="center"
+      pad="small"
+    >
+      <SEO title="Registrate" keywords={[`register`, `quekiwi`, `libros`]} />
+      <Heading level={4}>Regístrate en Quekiwi</Heading>
+      <Box width="medium">
+        <RegisterForm signUp={signUp} loading={loading} />
+        <Suggestion />
+      </Box>
+    </Box>
+  )
+}
+
+const RegisterForm = ({ loading, signUp }) => {
+  const submit = ({ value }) => {
+    signUp(value)
+  }
+
+  return (
+    <Form onSubmit={submit}>
+      <FormField label="Nombre de usuario" name="name" required />
       <FormField label="Correo" name="email" required type="email" />
       <FormField
         name="repeatedEmail"
@@ -55,7 +54,7 @@ const RegisterForm = () => {
       />
       <FormField label="Contraseña" required name="password" type="password" />
       <Box direction="row" justify="center" margin={{ top: "medium" }}>
-        {isSubmitting ? (
+        {loading ? (
           <FormClock />
         ) : (
           <Button type="submit" fill label="Registrarme" primary />
@@ -74,4 +73,13 @@ const Suggestion = () => (
   </p>
 )
 
-export default SignupPage
+const mapStateToProps = ({ signUp }) => ({
+  loading: signUp.loading,
+  error: signUp.error,
+  logged: signUp.logged,
+})
+
+export default connect(
+  mapStateToProps,
+  { signUp }
+)(SignupPage)
