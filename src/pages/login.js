@@ -11,7 +11,7 @@ import { login } from "../state/auth/login/actions"
 
 const LoginPage = ({ login, loading, logged, error }) => {
   useEffect(() => {
-    if (logged) navigate("/main")
+    if (logged) navigate("/")
   })
 
   useEffect(() => {
