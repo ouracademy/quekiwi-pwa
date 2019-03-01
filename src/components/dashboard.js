@@ -1,7 +1,7 @@
 import React, { useState } from "react"
-import { Box, TextInput, Heading, Anchor } from "grommet"
-import { Search } from "grommet-icons"
+import { Box, Heading, Anchor } from "grommet"
 import SEO from "./seo"
+import { SearchInput } from "./search-input"
 
 const SearchResult = ({ books }) => {
   const bookList = books.map(({ id, title, provider, price, unit }, index) => (
@@ -39,31 +39,6 @@ const SearchResult = ({ books }) => {
     </Box>
   )
 }
-const SearchInput = ({ search }) => (
-  <Box
-    align="center"
-    justify="center"
-    width="large"
-    direction="row"
-    align="center"
-    margin="medium"
-    pad={{ horizontal: "small", vertical: "xsmall" }}
-    round="small"
-    elevation="small"
-    border={{
-      side: "all",
-      color: "border",
-    }}
-  >
-    <Search color="brand" />
-    <TextInput
-      type="search"
-      plain
-      onChange={search}
-      placeholder="Ingresa el libro a buscar..."
-    />
-  </Box>
-)
 
 export const DashBoard = () => {
   const allBooks = [
