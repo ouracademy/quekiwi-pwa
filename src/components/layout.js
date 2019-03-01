@@ -5,7 +5,7 @@ import { StaticQuery, graphql } from "gatsby"
 import Header from "./header"
 import "./layout.css"
 import { Facebook } from "grommet-icons"
-import { Grommet, Box, Anchor, Image as Img } from "grommet"
+import { Grommet, Box, Anchor } from "grommet"
 import { hpe } from "grommet-theme-hpe"
 
 const theme = hpe
