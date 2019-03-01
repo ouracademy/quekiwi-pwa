@@ -31,16 +31,18 @@ export class SearchInput extends Component {
 
   boxRef = createRef()
 
-  onChange = event =>
-    this.setState({ value: event.target.value }, () => {
-      const { value } = this.state
-      if (!value.trim()) {
-        this.setState({ suggested: [] })
-      } else {
-        // simulate an async call to the backend
-        setTimeout(() => this.setState({ suggested: search(value) }), 300)
-      }
-    })
+  onChange = event => {
+    const searchText = event.target.value
+
+    if (!searchText.trim()) {
+      this.setState({ suggested: [] })
+    } else {
+      // simulate an async call to the backend
+      setTimeout(() => this.setState({ suggested: search(searchText) }), 300)
+    }
+
+    this.setState({ value: searchText })
+  }
 
   onSelect = event => this.setState({ value: event.suggestion.value })
   renderSuggestions = () => {
@@ -60,6 +62,10 @@ export class SearchInput extends Component {
       ),
       value: name,
     }))
+  }
+
+  setSuggestionOpen = value => {
+    this.setState({ suggestionOpen: value })
   }
 
   render() {
@@ -96,8 +102,8 @@ export class SearchInput extends Component {
           onSelect={this.onSelect}
           suggestions={this.renderSuggestions()}
           placeholder="Escribe un libro a buscar..."
-          onSuggestionsOpen={() => this.setState({ suggestionOpen: true })}
-          onSuggestionsClose={() => this.setState({ suggestionOpen: false })}
+          onSuggestionsOpen={() => this.setSuggestionOpen(true)}
+          onSuggestionsClose={() => this.setSuggestionOpen(false)}
         />
       </Box>
     )
