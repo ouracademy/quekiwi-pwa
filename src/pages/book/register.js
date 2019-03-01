@@ -1,16 +1,17 @@
 import React from "react"
 import { Add } from "grommet-icons"
 import { Form, FormField, Box } from "grommet"
+import { SearchInput } from "../../components/search-input"
 
 export const RegisterBook = () => (
   <div>
-    <SearchBook />
+    <h1>Registra tus libros :)</h1>
+    <h3>1. Busca tu libro</h3>
+    <SearchInput />
     <Book />
     <BookCopies />
   </div>
 )
-
-export const SearchBook = () => <div>{/* TODO: autocomplete :) */}</div>
 
 const submit = ({ value }) => console.log(value)
 export const Book = () => (
