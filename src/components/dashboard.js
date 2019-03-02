@@ -1,76 +1,76 @@
 import React, { useState } from "react"
 import { Box, Heading, Anchor } from "grommet"
-import SEO from "./seo"
 import { SearchInput } from "./search-input"
+import { of } from "rxjs"
 
-const SearchResult = ({ books }) => {
-  const bookList = books.map(({ id, title, provider, price, unit }, index) => (
-    <Anchor href={`book/${id}`} key={index}>
-      {" "}
-      <Box
-        pad="medium"
-        direction="column"
-        width="large"
-        height="small"
-        elevation="small"
-      >
-        <Heading color="neutral-1" level={5}>
-          {title}
-        </Heading>
-        <Box direction="row">
-          <span> {unit}</span>
-          <Heading color="neutral-1" level={2}>
-            {price}
-          </Heading>
-        </Box>
-        <Box round="medium">{provider}</Box>
-      </Box>
+const SearchResult = ({ books }) => (
+  <Box
+    align="center"
+    justify="center"
+    pad="small"
+    gap="small"
+    direction="column"
+  >
+    {books.map(book => (
+      <Book key={book.id} {...book} />
+    ))}
+  </Box>
+)
+
+const Book = ({ id, title, provider, price, unit }) => (
+  <Box
+    direction="column"
+    pad="medium"
+    width="large"
+    height="small"
+    elevation="small"
+  >
+    <Anchor href={`book/${id}`}>
+      <Heading color="neutral-1" level={5}>
+        {title}
+      </Heading>
     </Anchor>
-  ))
-  return (
-    <Box
-      align="center"
-      justify="center"
-      pad="small"
-      gap="small"
-      direction="column"
-    >
-      {bookList}
+    <Box direction="row">
+      <span> {unit}</span>
+      <Heading color="neutral-1" level={2}>
+        {price}
+      </Heading>
     </Box>
-  )
-}
+    <Box round="medium">{provider}</Box>
+  </Box>
+)
+
+export const allBooks = [
+  {
+    id: 111,
+    author: "Must Read Summaries",
+    title: "The Lean Startup  Eric Ries",
+    provider: "Amazonas E4",
+    price: "20.00",
+    unit: "S/",
+    features: ["paperWhite", "new"],
+  },
+  {
+    id: 222,
+    author: "Instaread",
+    title: "Summary of The Lean Startup",
+    provider: "Amazonas B1",
+    price: "10.00",
+    unit: "S/",
+    features: ["paperWhite", "used"],
+  },
+]
 
 export const DashBoard = () => {
-  const allBooks = [
-    {
-      id: 1,
-      author: "Must Read Summaries",
-      title: "The Lean Startup  Eric Ries",
-      provider: "Amazonas E4",
-      price: "20.00",
-      unit: "S/",
-      features: ["paperWhite", "new"],
-    },
-    {
-      id: 2,
-      author: "Instaread",
-      title: "Summary of The Lean Startup",
-      provider: "Amazonas B1",
-      price: "10.00",
-      unit: "S/",
-      features: ["paperWhite", "used"],
-    },
-  ]
-
   const [books, setBooks] = useState([])
 
-  const search = ({ target }) => {
-    setBooks(allBooks.filter(book => book.title.startsWith(target.value)))
+  const search = term => {
+    const result = allBooks.filter(byTitle(term))
+    setBooks(result)
   }
 
   return (
     <>
-      <SEO title="Buscador" keywords={[`buscador`, `quekiwi`, `libros`]} />
       <Box
         height="xlarge"
         fill
@@ -78,9 +78,17 @@ export const DashBoard = () => {
         justify="center"
         direction="column"
       >
-        <SearchInput search={search} />
+        <SearchInput suggestionsFor={getSuggestions} onChoose={search} />
         <SearchResult books={books} />
       </Box>
     </>
   )
+}
+
+const getSuggestions = term => {
+  return of(allBooks.filter(byTitle(term)).map(book => ({ name: book.title })))
+}
+
+function byTitle(term) {
+  return ({ title }) => title.toLowerCase().indexOf(term.toLowerCase()) >= 0
 }

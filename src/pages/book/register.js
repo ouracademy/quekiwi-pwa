@@ -1,53 +1,21 @@
 import React from "react"
 import { Add } from "grommet-icons"
 import { Form, FormField, Box } from "grommet"
-import { SearchInput } from "../../components/search-input"
-import { of } from "rxjs"
-
-const books = [
-  {
-    name: "Alan Souza",
-  },
-  {
-    name: "Bryan Jacquot",
-  },
-  {
-    name: "Chris Carlozzi",
-  },
-  {
-    name: "Eric Soderberg",
-  },
-  {
-    name: "Marlon Parizzotto",
-  },
-  {
-    name: "Tales Chaves",
-  },
-  {
-    name: "Tracy Barmore",
-  },
-]
+import { DashBoard } from "../../components/dashboard"
 
 export const RegisterBook = () => {
   return (
     <div>
       <h1>Registra tus libros :)</h1>
-      <h3>1. Busca tu libro</h3>
-      <SearchInput
-        suggestionsFor={getSuggestions}
-        onChoose={searchText => console.log("BUscando", searchText)}
-      />
+      <Box>
+        <h3>1. Busca tu libro</h3>
+        <div>No lo encontraste? Agregalo</div>
+      </Box>
+      <DashBoard />
+
       <Book />
       <BookCopies />
     </div>
-  )
-}
-
-const getSuggestions = term => {
-  return of(
-    books.filter(
-      ({ name }) => name.toLowerCase().indexOf(term.toLowerCase()) >= 0
-    )
   )
 }
 
