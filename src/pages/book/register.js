@@ -1,56 +1,58 @@
-import React from "react"
-import { Add } from "grommet-icons"
-import { Form, FormField, Box } from "grommet"
+import React, { useEffect, useState } from "react"
+import { connect } from "react-redux"
+import { Form, FormField, Box, Button } from "grommet"
 import { SearchInput } from "../../components/search-input"
-
-export const RegisterBook = () => (
-  <div>
-    <h1>Registra tus libros :)</h1>
-    <h3>1. Busca tu libro</h3>
-    <SearchInput />
-    <Book />
-    <BookCopies />
-  </div>
-)
-
-const submit = ({ value }) => console.log(value)
-export const Book = () => (
-  <Box direction="row">
-    <Cover />
-    <Form onSubmit={submit}>
-      <FormField label="Titulo" name="title" required />
-      <FormField label="Subtitulo" name="subtitle" />
-    </Form>
-  </Box>
-)
-
-const bookCopies = []
-
-export const BookCopies = () => (
-  <Box>
-    <Box>
-      <h3>Ejemplares</h3> <Add />
-    </Box>
-
-    {bookCopies.map(x => (
-      <BookCopie key={x.id} />
-    ))}
-  </Box>
-)
-
-export const BookCopie = () => (
-  <Box direction="column">
-    <Form>
-      <BookFeatures />
-      <FormField label="Precio" name="price" />
-      <FormField label="Cantidad" name="quantity" />
-    </Form>
-  </Box>
-)
-
-export const BookFeatures = () => (
-  <FormField label="Características" name="feature" required />
-)
+import BookCopies from "../../components/book/book-copies"
+import { getBookCopies } from "../../state/book/actions"
 
 // TODO: cover with a main image & below three images
-export const Cover = () => <div />
+const Cover = () => <div />
+
+const isEmpty = object => Object.keys(object).length === 0
+
+const Book = ({ getBookCopies, book = {} }) => {
+  const [data, setData] = useState(book)
+  const submit = ({ value }) => {
+    getBookCopies({ bookId: 1 })
+    setData(value)
+  }
+  useEffect(() => {
+    if (!isEmpty(book)) {
+      getBookCopies(book)
+    }
+  })
+
+  return (
+    <Box direction="row">
+      <Cover />
+      <Form onSubmit={submit} value={data}>
+        <FormField label="Titulo" name="title" required />
+        <FormField label="Subtitulo" name="subtitle" />
+        {isEmpty(data) && <Button type="submit" label="Ingresar" primary />}
+      </Form>
+    </Box>
+  )
+}
+
+const RegisterBook = ({ getBookCopies }) => {
+  const [book, setBook] = useState()
+  useEffect(() => {
+    getBookCopies(book)
+  })
+  //when search input devulve book use setBook and get bookCopies
+  return (
+    <div>
+      <h1>Registra tus libros :)</h1>
+      <h3>1. Busca tu libro</h3>
+      <SearchInput />
+      <Book getBookCopies={getBookCopies} book={book} />
+      <BookCopies />
+    </div>
+  )
+}
+
+const mapStateToProps = ({ book }) => ({})
+export default connect(
+  mapStateToProps,
+  { getBookCopies }
+)(RegisterBook)
