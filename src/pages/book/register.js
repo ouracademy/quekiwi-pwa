@@ -1,62 +1,50 @@
 import React from "react"
-import { Add } from "grommet-icons"
-import { Form, FormField, Box } from "grommet"
+import { connect } from "react-redux"
+import { Form, FormField, Box, Button } from "grommet"
+import BookCopies from "../../components/book/book-copies"
+import { getBookCopies, addBook } from "../../state/book/actions"
 import { DashBoard } from "../../components/dashboard"
+const isEmpty = object =>
+  object === null || object === undefined || Object.keys(object).length === 0
 
-export const RegisterBook = () => {
+const RegisterBook = ({ book, getBookCopies, addBook }) => {
+  const handleAddBook = book => {
+    addBook(book)
+    getBookCopies({ id: book.id })
+  }
+
   return (
     <div>
       <h1>Registra tus libros :)</h1>
-      <Box>
-        <h3>1. Busca tu libro</h3>
-        <div>No lo encontraste? Agregalo</div>
-      </Box>
+      <h3>1. Busca tu libro</h3>
       <DashBoard />
-
-      <Book />
-      <BookCopies />
+      <Book getBookCopies={getBookCopies} book={book} addBook={handleAddBook} />
+      {!isEmpty(book) && <BookCopies />}
     </div>
   )
 }
 
-const submit = ({ value }) => console.log(value)
-export const Book = () => (
-  <Box direction="row">
-    <Cover />
-    <Form onSubmit={submit}>
-      <FormField label="Titulo" name="title" required />
-      <FormField label="Subtitulo" name="subtitle" />
-    </Form>
-  </Box>
-)
-
-const bookCopies = []
-
-export const BookCopies = () => (
-  <Box>
-    <Box>
-      <h3>Ejemplares</h3> <Add />
+const Book = ({ book = {}, addBook }) => {
+  const submit = ({ value }) => {
+    addBook({ id: 1, ...value })
+  }
+  return (
+    <Box direction="row">
+      <Cover />
+      <Form onSubmit={submit} value={book}>
+        <FormField label="Titulo" name="title" required />
+        <FormField label="Subtitulo" name="subtitle" />
+        {isEmpty(book) && <Button type="submit" label="Ingresar" primary />}
+      </Form>
     </Box>
-
-    {bookCopies.map(x => (
-      <BookCopie key={x.id} />
-    ))}
-  </Box>
-)
-
-export const BookCopie = () => (
-  <Box direction="column">
-    <Form>
-      <BookFeatures />
-      <FormField label="Precio" name="price" />
-      <FormField label="Cantidad" name="quantity" />
-    </Form>
-  </Box>
-)
-
-export const BookFeatures = () => (
-  <FormField label="Características" name="feature" required />
-)
+  )
+}
 
 // TODO: cover with a main image & below three images
-export const Cover = () => <div />
+const Cover = () => <div />
+
+const mapStateToProps = ({ book }) => ({ book: book.book })
+export default connect(
+  mapStateToProps,
+  { getBookCopies, addBook }
+)(RegisterBook)
