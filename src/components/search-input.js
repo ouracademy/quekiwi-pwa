@@ -1,4 +1,4 @@
-import React, { createRef, Component } from "react"
+import React, { useState, useRef } from "react"
 import { Search } from "grommet-icons"
 import { Box, TextInput, Text } from "grommet"
 
@@ -26,28 +26,28 @@ const books = [
   },
 ]
 
-export class SearchInput extends Component {
-  state = { value: "", suggestionOpen: false, suggested: [] }
+export const SearchInput = () => {
+  const [value, setValue] = useState("")
+  const [suggestionOpen, setSuggestionOpen] = useState(false)
+  const [suggested, setSuggested] = useState([])
 
-  boxRef = createRef()
+  const boxRef = useRef()
 
-  onChange = event => {
+  const onChange = event => {
     const searchText = event.target.value
 
+    setValue(searchText)
     if (!searchText.trim()) {
-      this.setState({ suggested: [] })
+      setSuggested([])
     } else {
       // simulate an async call to the backend
-      setTimeout(() => this.setState({ suggested: search(searchText) }), 300)
+      setTimeout(() => setSuggested(search(searchText)), 300)
     }
-
-    this.setState({ value: searchText })
   }
 
-  onSelect = event => this.setState({ value: event.suggestion.value })
-  renderSuggestions = () => {
-    const { suggested } = this.state
+  const onSelect = event => setValue(event.suggestion.value)
 
+  const renderSuggestions = () => {
     return suggested.map(({ name }, index, list) => ({
       label: (
         <Box
@@ -64,50 +64,44 @@ export class SearchInput extends Component {
     }))
   }
 
-  setSuggestionOpen = value => {
-    this.setState({ suggestionOpen: value })
-  }
+  return (
+    <Box
+      ref={boxRef}
+      width="large"
+      direction="row"
+      align="center"
+      pad={{ horizontal: "small", vertical: "xsmall" }}
+      round="small"
+      elevation={suggestionOpen ? "medium" : undefined}
+      border={{
+        side: "all",
+        color: suggestionOpen ? "transparent" : "border",
+      }}
+      style={
+        suggestionOpen
+          ? {
+              borderBottomLeftRadius: "0px",
+              borderBottomRightRadius: "0px",
+            }
+          : undefined
+      }
+    >
+      <Search color="brand" />
 
-  render() {
-    const { suggestionOpen, value } = this.state
-    return (
-      <Box
-        ref={this.boxRef}
-        width="large"
-        direction="row"
-        align="center"
-        pad={{ horizontal: "small", vertical: "xsmall" }}
-        round="small"
-        elevation={suggestionOpen ? "medium" : undefined}
-        border={{
-          side: "all",
-          color: suggestionOpen ? "transparent" : "border",
-        }}
-        style={
-          suggestionOpen
-            ? {
-                borderBottomLeftRadius: "0px",
-                borderBottomRightRadius: "0px",
-              }
-            : undefined
-        }
-      >
-        <Search color="brand" />
-        <TextInput
-          type="search"
-          dropTarget={this.boxRef.current}
-          plain
-          value={value}
-          onChange={this.onChange}
-          onSelect={this.onSelect}
-          suggestions={this.renderSuggestions()}
-          placeholder="Escribe un libro a buscar..."
-          onSuggestionsOpen={() => this.setSuggestionOpen(true)}
-          onSuggestionsClose={() => this.setSuggestionOpen(false)}
-        />
-      </Box>
-    )
-  }
+      <TextInput
+        type="search"
+        dropTarget={boxRef.current}
+        plain
+        value={value}
+        onChange={onChange}
+        onSelect={onSelect}
+        suggestions={renderSuggestions()}
+        placeholder="Escribe un libro a buscar..."
+        onSuggestionsOpen={() => setSuggestionOpen(true)}
+        onSuggestionsClose={() => setSuggestionOpen(false)}
+      />
+    </Box>
+  )
 }
 
 function search(value) {
