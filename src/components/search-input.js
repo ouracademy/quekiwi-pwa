@@ -12,31 +12,7 @@ import {
 import { useEventCallback } from "rxjs-hooks"
 import { of } from "rxjs"
 
-const books = [
-  {
-    name: "Alan Souza",
-  },
-  {
-    name: "Bryan Jacquot",
-  },
-  {
-    name: "Chris Carlozzi",
-  },
-  {
-    name: "Eric Soderberg",
-  },
-  {
-    name: "Marlon Parizzotto",
-  },
-  {
-    name: "Tales Chaves",
-  },
-  {
-    name: "Tracy Barmore",
-  },
-]
-
-export const SearchInput = () => {
+export const SearchInput = ({ onChoose, suggestionsFor }) => {
   const [value, setValue] = useState("")
   const [suggestionOpen, setSuggestionOpen] = useState(false)
 
@@ -51,12 +27,18 @@ export const SearchInput = () => {
         }),
         debounceTime(300),
         distinctUntilChanged(),
-        switchMap(search)
+        switchMap(searchText => search(searchText, suggestionsFor))
       ),
     []
   )
 
-  const onSelect = event => setValue(event.suggestion.value)
+  const onSelect = event => {
+    const searchText = event.suggestion.value
+    setValue(searchText)
+    onChoose(searchText)
+  }
+
+  const onKeyEnter = event => onChoose(value)
 
   const renderSuggestions = () => {
     return suggestions.map(({ name }, index, list) => ({
@@ -104,6 +86,9 @@ export const SearchInput = () => {
         dropTarget={boxRef.current}
         plain
         value={value}
+        onKeyPress={e => {
+          if (e.key === "Enter") onKeyEnter(e)
+        }}
         onChange={onChange}
         onSelect={onSelect}
         suggestions={renderSuggestions()}
@@ -115,17 +100,12 @@ export const SearchInput = () => {
   )
 }
 
-function search(term = "") {
+const search = (term = "", suggestionsFor) => {
   const searchText = term.trim()
 
   if (!searchText) {
     return of([])
   }
 
-  // TODO: here dispatch or axios
-  return of(
-    books.filter(
-      ({ name }) => name.toLowerCase().indexOf(searchText.toLowerCase()) >= 0
-    )
-  )
+  return suggestionsFor(searchText)
 }
