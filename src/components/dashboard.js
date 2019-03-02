@@ -4,13 +4,7 @@ import { SearchInput } from "./search-input"
 import { of } from "rxjs"
 
 const SearchResult = ({ books }) => (
-  <Box
-    align="center"
-    justify="center"
-    pad="small"
-    gap="small"
-    direction="column"
-  >
+  <Box justify="center" pad="small" gap="small" direction="column">
     {books.map(book => (
       <Book key={book.id} {...book} />
     ))}
@@ -70,18 +64,10 @@ export const DashBoard = () => {
   }
 
   return (
-    <>
-      <Box
-        height="xlarge"
-        fill
-        align="center"
-        justify="center"
-        direction="column"
-      >
-        <SearchInput suggestionsFor={getSuggestions} onChoose={search} />
-        <SearchResult books={books} />
-      </Box>
-    </>
+    <Box>
+      <SearchInput suggestionsFor={getSuggestions} onChoose={search} />
+      <SearchResult books={books} />
+    </Box>
   )
 }
 
