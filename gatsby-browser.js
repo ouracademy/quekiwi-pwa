@@ -3,5 +3,5 @@
  *
  * See: https://www.gatsbyjs.org/docs/browser-apis/
  */
-
+import "./src/styles.css"
 export { default as wrapRootElement } from "./src/state/reduxWrapper"
