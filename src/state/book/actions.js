@@ -1,3 +1,7 @@
+export const addBook = book => ({
+  type: "BOOK_ADDED",
+  payload: book,
+})
 export const getBookCopies = query => ({
   type: "BOOK_COPIES_REQUESTED",
   payload: query,

@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { connect } from "react-redux"
 import { Form, FormField, Box, Button } from "grommet"
 import { SearchInput } from "../../components/search-input"
 import BookCopies from "../../components/book/book-copies"
-import { getBookCopies } from "../../state/book/actions"
+import { getBookCopies, addBook } from "../../state/book/actions"
 import { of } from "rxjs"
-const isEmpty = object => Object.keys(object).length === 0
+const isEmpty = object =>
+  object === null || object === undefined || Object.keys(object).length === 0
 const books = [
   {
     name: "Alan Souza",
@@ -30,12 +31,12 @@ const books = [
   },
 ]
 
-const RegisterBook = ({ getBookCopies }) => {
-  const [book, setBook] = useState()
-  useEffect(() => {
-    getBookCopies(book)
-  })
-  //when search input devulve book use setBook and get bookCopies
+const RegisterBook = ({ book, getBookCopies, addBook }) => {
+  const handleAddBook = book => {
+    addBook(book)
+    getBookCopies({ id: book.id })
+  }
+
   return (
     <div>
       <h1>Registra tus libros :)</h1>
@@ -44,8 +45,8 @@ const RegisterBook = ({ getBookCopies }) => {
         suggestionsFor={getSuggestions}
         onChoose={searchText => console.log("BUscando", searchText)}
       />
-      <Book getBookCopies={getBookCopies} book={book} />
-      <BookCopies />
+      <Book getBookCopies={getBookCopies} book={book} addBook={handleAddBook} />
+      {!isEmpty(book) && <BookCopies />}
     </div>
   )
 }
@@ -58,25 +59,18 @@ const getSuggestions = term => {
   )
 }
 
-const Book = ({ getBookCopies, book = {} }) => {
-  const [data, setData] = useState(book)
+const Book = ({ book = {}, addBook }) => {
   const submit = ({ value }) => {
-    getBookCopies({ bookId: 1 })
-    setData(value)
+    addBook({ id: 1, ...value })
   }
-  useEffect(() => {
-    if (!isEmpty(book)) {
-      getBookCopies(book)
-    }
-  })
 
   return (
     <Box direction="row">
       <Cover />
-      <Form onSubmit={submit} value={data}>
+      <Form onSubmit={submit} value={book}>
         <FormField label="Titulo" name="title" required />
         <FormField label="Subtitulo" name="subtitle" />
-        {isEmpty(data) && <Button type="submit" label="Ingresar" primary />}
+        {isEmpty(book) && <Button type="submit" label="Ingresar" primary />}
       </Form>
     </Box>
   )
@@ -85,8 +79,8 @@ const Book = ({ getBookCopies, book = {} }) => {
 // TODO: cover with a main image & below three images
 const Cover = () => <div />
 
-const mapStateToProps = ({ book }) => ({})
+const mapStateToProps = ({ book }) => ({ book: book.book })
 export default connect(
   mapStateToProps,
-  { getBookCopies }
+  { getBookCopies, addBook }
 )(RegisterBook)
