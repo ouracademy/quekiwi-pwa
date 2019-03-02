@@ -2,6 +2,16 @@ import React, { useState, useRef } from "react"
 import { Search } from "grommet-icons"
 import { Box, TextInput, Text } from "grommet"
 
+import {
+  map,
+  debounceTime,
+  distinctUntilChanged,
+  switchMap,
+  tap,
+} from "rxjs/operators"
+import { useEventCallback } from "rxjs-hooks"
+import { of } from "rxjs"
+
 const books = [
   {
     name: "Alan Souza",
@@ -29,26 +39,27 @@ const books = [
 export const SearchInput = () => {
   const [value, setValue] = useState("")
   const [suggestionOpen, setSuggestionOpen] = useState(false)
-  const [suggested, setSuggested] = useState([])
 
   const boxRef = useRef()
 
-  const onChange = event => {
-    const searchText = event.target.value
-
-    setValue(searchText)
-    if (!searchText.trim()) {
-      setSuggested([])
-    } else {
-      // simulate an async call to the backend
-      setTimeout(() => setSuggested(search(searchText)), 300)
-    }
-  }
+  const [onChange, suggestions] = useEventCallback(
+    event$ =>
+      event$.pipe(
+        map(event => event.target.value),
+        tap(searchText => {
+          setValue(searchText)
+        }),
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap(search)
+      ),
+    []
+  )
 
   const onSelect = event => setValue(event.suggestion.value)
 
   const renderSuggestions = () => {
-    return suggested.map(({ name }, index, list) => ({
+    return suggestions.map(({ name }, index, list) => ({
       label: (
         <Box
           direction="row"
@@ -104,15 +115,17 @@ export const SearchInput = () => {
   )
 }
 
-function search(value) {
-  return books.filter(
-    ({ name }) => name.toLowerCase().indexOf(value.toLowerCase()) >= 0
+function search(term = "") {
+  const searchText = term.trim()
+
+  if (!searchText) {
+    return of([])
+  }
+
+  // TODO: here dispatch or axios
+  return of(
+    books.filter(
+      ({ name }) => name.toLowerCase().indexOf(searchText.toLowerCase()) >= 0
+    )
   )
 }
-// justify="center"
-// margin="medium"
-// elevation="small"
-// border={{
-//   side: "all",
-//   color: "border",
-// }}
