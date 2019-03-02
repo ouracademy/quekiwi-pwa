@@ -5,37 +5,19 @@ import { Form, FormField, Box, Button } from "grommet"
 import { addBookCopie, saveCopie, deleteCopie } from "../../state/book/actions"
 const ReactTags = require("react-tag-autocomplete")
 
-const BookCopie = ({ data, save, remove }) => {
-  const submitCopie = ({ value }) => {
-    console.log(value)
-    save(value)
-  }
-  const deleteCopie = () => {
-    remove(data.id)
-  }
-
-  return (
-    <Box
-      direction="column"
-      pad="medium"
-      round="small"
-      border={{
-        side: "all",
-        color: "border",
-      }}
-    >
-      <Form onSubmit={submitCopie} value={data}>
-        <BookFeatures />
-        <FormField label="Precio" name="price" />
-        <FormField label="Cantidad" name="quantity" />
-        <Box direction="row" justify="end" fill>
-          <Button type="submit" icon={<Edit />} />
-          <Button icon={<Trash />} onClick={deleteCopie} />
-        </Box>
-      </Form>
-    </Box>
-  )
-}
+const BookCopie = ({ data, save, remove }) => (
+  <Box pad="medium" round="small" border="all">
+    <Form onSubmit={({ value }) => save(value)} value={data}>
+      <BookFeatures />
+      <FormField label="Precio" name="price" />
+      <FormField label="Cantidad" name="quantity" />
+      <Box direction="row" justify="end" fill>
+        <Button type="submit" icon={<Edit />} />
+        <Button icon={<Trash />} onClick={() => remove(data.id)} />
+      </Box>
+    </Form>
+  </Box>
+)
 
 const BookFeatures = () => {
   const suggestions = [
@@ -46,6 +28,7 @@ const BookFeatures = () => {
     { name: "Tapa dura", type: "any" },
   ]
   const [tags, setTags] = useState([])
+
   const handleDelete = index => {
     setTags(tags.filter((tag, i) => i !== index))
   }
@@ -58,6 +41,7 @@ const BookFeatures = () => {
     const alreadyExistType = uniqueInType && tags.find(tag => tag.type === type)
     return !alreadyExistType
   }
+
   return (
     <FormField label="Características" name="features">
       <ReactTags
@@ -73,28 +57,20 @@ const BookFeatures = () => {
   )
 }
 
-const BookCopies = ({ data, bookId, addBookCopie, saveCopie, deleteCopie }) => {
-  const addCopie = () => {
-    addBookCopie({ bookId })
-  }
-  return (
+const BookCopies = ({ data, bookId, addBookCopie, saveCopie, deleteCopie }) => (
+  <Box>
     <Box>
-      <Box>
-        <h3>Ejemplares</h3> <Button icon={<Add />} onClick={addCopie} />
-      </Box>
-      <Box direction="column" gap="small">
-        {data.map((x, index) => (
-          <BookCopie
-            key={index}
-            data={x}
-            save={saveCopie}
-            remove={deleteCopie}
-          />
-        ))}
-      </Box>
+      <h3>Ejemplares</h3>{" "}
+      <Button icon={<Add />} onClick={() => addBookCopie({ bookId })} />
     </Box>
-  )
-}
+    <Box direction="column" gap="small">
+      {data.map((x, index) => (
+        <BookCopie key={index} data={x} save={saveCopie} remove={deleteCopie} />
+      ))}
+    </Box>
+  </Box>
+)
+
 const mapStateToProps = ({ book }) => ({
   data: book.data,
   bookId: book.bookId,
