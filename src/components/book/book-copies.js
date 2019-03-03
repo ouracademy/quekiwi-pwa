@@ -1,42 +1,52 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { connect } from "react-redux"
 import { Add, Trash, Edit } from "grommet-icons"
 import { Form, FormField, Box, Button } from "grommet"
-import { addBookCopie, saveCopie, deleteCopie } from "../../state/book/actions"
+import {
+  addBookCopie,
+  saveBookCopie,
+  deleteBookCopie,
+} from "../../state/book/actions"
 import { suggestionsBasedCurrentFeatures } from "./feature-suggestions"
 const ReactTags = require("react-tag-autocomplete")
-const BookCopies = ({ data, bookId, addBookCopie, saveCopie, deleteCopie }) => {
-  const addCopie = () => {
-    addBookCopie({ bookId, id: data.length + 1 })
+const BookCopies = ({
+  bookCopies,
+  bookId,
+  addBookCopie,
+  saveBookCopie,
+  deleteBookCopie,
+}) => {
+  const add = () => {
+    addBookCopie({ bookId, id: bookCopies.length + 1 })
   }
   return (
     <Box>
       <Box>
-        <h3>Ejemplares</h3> <Button icon={<Add />} onClick={addCopie} />
+        <h3>Ejemplares</h3> <Button icon={<Add />} onClick={add} />
       </Box>
       <Box direction="column" gap="small">
-        {data.map((x, index) => (
+        {bookCopies.map((x, index) => (
           <BookCopie
             key={index}
-            data={x}
-            save={saveCopie}
-            remove={deleteCopie}
+            bookCopie={x}
+            saveBookCopie={saveBookCopie}
+            deleteBookCopie={deleteBookCopie}
           />
         ))}
       </Box>
     </Box>
   )
 }
-const BookCopie = ({ data = {}, save, remove }) => {
-  const [features, setFeatures] = useState(data.features || [])
+const BookCopie = ({ bookCopie = {}, saveBookCopie, deleteBookCopie }) => {
+  const [features, setFeatures] = useState(bookCopie.features || [])
   const [suggestions, setSuggestions] = useState(
     suggestionsBasedCurrentFeatures(features)
   )
   const submitCopie = ({ value }) => {
-    save({ ...data, ...value, features: features })
+    saveBookCopie({ ...bookCopie, ...value, features: features })
   }
   const deleteCopie = () => {
-    remove(data.id)
+    deleteBookCopie(bookCopie.id)
   }
 
   const changeFeatures = features => {
@@ -54,7 +64,7 @@ const BookCopie = ({ data = {}, save, remove }) => {
         color: "border",
       }}
     >
-      <Form onSubmit={submitCopie} value={data}>
+      <Form onSubmit={submitCopie} value={bookCopie}>
         <BookFeatures
           features={features}
           changeFeatures={changeFeatures}
@@ -95,11 +105,11 @@ const BookFeatures = ({ features = [], suggestions = [], changeFeatures }) => {
 }
 
 const mapStateToProps = ({ book }) => ({
-  data: book.data,
+  bookCopies: book.bookCopies,
   bookId: book.book.id,
 })
 
 export default connect(
   mapStateToProps,
-  { addBookCopie, saveCopie, deleteCopie }
+  { addBookCopie, saveBookCopie, deleteBookCopie }
 )(BookCopies)

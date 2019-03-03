@@ -1,4 +1,4 @@
-export const reducer = (prevState = { book: {}, data: [] }, action) => {
+export const reducer = (prevState = { book: {}, bookCopies: [] }, action) => {
   const { type } = action
 
   switch (type) {
@@ -7,10 +7,10 @@ export const reducer = (prevState = { book: {}, data: [] }, action) => {
     case "BOOK_COPIES_ADDED":
       return {
         ...prevState,
-        data: [...prevState.data, action.payload],
+        bookCopies: [...prevState.bookCopies, action.payload],
       }
     case "BOOK_COPIES_SAVED":
-      const newData = prevState.data.map(book => {
+      const newData = prevState.bookCopies.map(book => {
         if (action.payload.id === book.id) {
           book = action.payload
         }
@@ -19,12 +19,14 @@ export const reducer = (prevState = { book: {}, data: [] }, action) => {
 
       return {
         ...prevState,
-        data: newData,
+        bookCopies: newData,
       }
     case "BOOK_COPIES_DELETED":
       return {
         ...prevState,
-        data: prevState.data.filter(book => book.id !== action.payload),
+        bookCopies: prevState.bookCopies.filter(
+          book => book.id !== action.payload
+        ),
       }
     case "BOOK_ADDED":
       return {
