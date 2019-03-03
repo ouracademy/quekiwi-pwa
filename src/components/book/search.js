@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { Box, Heading, Anchor } from "grommet"
-import { SearchInput } from "./search-input"
+import { SearchInput } from "../search-input"
 import { of } from "rxjs"
 
 const SearchResult = ({ books }) => (
@@ -19,7 +19,7 @@ const Book = ({ id, title, provider, price, unit }) => (
     height="small"
     elevation="small"
   >
-    <Anchor href={`book/${id}`}>
+    <Anchor href={`${id}`}>
       <Heading color="neutral-1" level={5}>
         {title}
       </Heading>
@@ -55,7 +55,7 @@ export const allBooks = [
   },
 ]
 
-export const DashBoard = () => {
+export const SearchBooks = () => {
   const [books, setBooks] = useState([])
 
   const search = term => {

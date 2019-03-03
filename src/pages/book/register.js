@@ -3,7 +3,8 @@ import { connect } from "react-redux"
 import { Form, FormField, Box, Button } from "grommet"
 import BookCopies from "../../components/book/book-copies"
 import { getBookCopies, addBook } from "../../state/book/actions"
-import { DashBoard } from "../../components/dashboard"
+import { SearchBooks } from "../../components/book/search"
+
 const isEmpty = object =>
   object === null || object === undefined || Object.keys(object).length === 0
 
@@ -17,7 +18,7 @@ const RegisterBook = ({ book, getBookCopies, addBook }) => {
     <div>
       <h1>Registra tus libros :)</h1>
       <h3>1. Busca tu libro</h3>
-      <DashBoard />
+      <SearchBooks />
       <Book getBookCopies={getBookCopies} book={book} addBook={handleAddBook} />
       {!isEmpty(book) && <BookCopies />}
     </div>
