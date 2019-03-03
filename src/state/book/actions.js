@@ -12,11 +12,11 @@ export const addBookCopie = data => ({
   payload: data,
 })
 
-export const saveCopie = data => ({
+export const saveBookCopie = data => ({
   type: "BOOK_COPIES_SAVED",
   payload: data,
 })
-export const deleteCopie = id => ({
+export const deleteBookCopie = id => ({
   type: "BOOK_COPIES_DELETED",
   payload: id,
 })
