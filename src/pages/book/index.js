@@ -1,20 +1,45 @@
 import React from "react"
-import { Router } from "@reach/router"
+import { Router, Link } from "@reach/router"
 import Layout from "../../components/layout"
-import RegisterBook from "./register"
+import Step2 from "./step-2"
+import { SearchBooks } from "../../components/book/search"
+import { Box } from "grommet"
 
 export default () => {
   return (
     <Layout>
       <Router>
         <Root path="book">
-          <RegisterBook path="register" />
+          <Register path="register">
+            <Step1 path="step-1" />
+            <Step2 path="step-2" />
+          </Register>
           <BookDetail path=":id" />
         </Root>
       </Router>
     </Layout>
   )
 }
+
+const Register = ({ children }) => (
+  <div>
+    <h1>Registra tus libros :)</h1>
+    {children}
+  </div>
+)
+
+const Step1 = () => (
+  <div>
+    <Box direction="row" justify="between">
+      <h3>1. Busca tu libro</h3>
+      <div>
+        ¿No lo encontraste?{" "}
+        <Link to="/book/register/step-2">Registralo aquí</Link>
+      </div>
+    </Box>
+    <SearchBooks />
+  </div>
+)
 
 const Root = ({ children }) => <div>{children}</div>
 

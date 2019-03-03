@@ -3,12 +3,11 @@ import { connect } from "react-redux"
 import { Form, FormField, Box, Button } from "grommet"
 import BookCopies from "../../components/book/book-copies"
 import { getBookCopies, addBook } from "../../state/book/actions"
-import { SearchBooks } from "../../components/book/search"
 
 const isEmpty = object =>
   object === null || object === undefined || Object.keys(object).length === 0
 
-const RegisterBook = ({ book, getBookCopies, addBook }) => {
+const Step2 = ({ book, getBookCopies, addBook }) => {
   const handleAddBook = book => {
     addBook(book)
     getBookCopies({ id: book.id })
@@ -16,9 +15,7 @@ const RegisterBook = ({ book, getBookCopies, addBook }) => {
 
   return (
     <div>
-      <h1>Registra tus libros :)</h1>
-      <h3>1. Busca tu libro</h3>
-      <SearchBooks />
+      <h3>2. Ingresa ...</h3>
       <Book getBookCopies={getBookCopies} book={book} addBook={handleAddBook} />
       {!isEmpty(book) && <BookCopies />}
     </div>
@@ -48,4 +45,4 @@ const mapStateToProps = ({ book }) => ({ book: book.book })
 export default connect(
   mapStateToProps,
   { getBookCopies, addBook }
-)(RegisterBook)
+)(Step2)

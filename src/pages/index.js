@@ -12,7 +12,7 @@ const IndexPage = ({ logged }) => (
 const DashBoard = () => (
   <div>
     <h1>Mis libros</h1>
-    <Link to="/book/register">Agregar un nuevo libro</Link>
+    <Link to="/book/register/step-1">Agregar un nuevo libro</Link>
     {/* TODO: search my books */}
   </div>
 )
