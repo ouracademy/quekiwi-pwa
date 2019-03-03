@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { Box, Heading, Anchor } from "grommet"
-import { SearchInput } from "./search-input"
+import { SearchInput } from "../search-input"
 import { of } from "rxjs"
 
 const SearchResult = ({ books }) => (
@@ -55,7 +55,7 @@ export const allBooks = [
   },
 ]
 
-export const DashBoard = () => {
+export const SearchBooks = () => {
   const [books, setBooks] = useState([])
 
   const search = term => {
