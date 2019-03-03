@@ -19,7 +19,7 @@ const Book = ({ id, title, provider, price, unit }) => (
     height="small"
     elevation="small"
   >
-    <Anchor href={`book/${id}`}>
+    <Anchor href={`${id}`}>
       <Heading color="neutral-1" level={5}>
         {title}
       </Heading>

@@ -7,12 +7,16 @@ export default () => {
   return (
     <Layout>
       <Router>
-        <RegisterBook path="/book/register" />
-        <BookDetail path="/book/:id" />
+        <Root path="book">
+          <RegisterBook path="register" />
+          <BookDetail path=":id" />
+        </Root>
       </Router>
     </Layout>
   )
 }
+
+const Root = ({ children }) => <div>{children}</div>
 
 const BookDetail = ({ id }) => (
   <div>Estas en el detalle del libro {id} ohhh</div>
