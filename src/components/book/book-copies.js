@@ -1,14 +1,22 @@
 import React, { useState } from "react"
 import { connect } from "react-redux"
 import { Add, Trash, Edit } from "grommet-icons"
-import { Form, FormField, Box, Button } from "grommet"
+import { Form, FormField, Box, Heading, Button } from "grommet"
 import {
   addBookCopie,
   saveBookCopie,
   deleteBookCopie,
 } from "../../state/book/actions"
 import { suggestionsBasedCurrentFeatures } from "./feature-suggestions"
+import styled from "styled-components"
+
 const ReactTags = require("react-tag-autocomplete")
+
+const FormFieldWidthAll = styled(FormField)`
+  width: 100%;
+  margin: 10px;
+`
+
 const BookCopies = ({
   bookCopies,
   bookId,
@@ -21,8 +29,9 @@ const BookCopies = ({
   }
   return (
     <Box>
-      <Box>
-        <h3>Ejemplares</h3> <Button icon={<Add />} onClick={add} />
+      <Box direction="row" gap="small" align="center">
+        <div>Ejemplares</div>
+        <Button icon={<Add />} onClick={add} />
       </Box>
       <Box direction="column" gap="small">
         {bookCopies.map((x, index) => (
@@ -55,23 +64,37 @@ const BookCopie = ({ bookCopie = {}, saveBookCopie, deleteBookCopie }) => {
   }
 
   return (
-    <Box
-      direction="column"
-      pad="medium"
-      round="small"
-      border={{
-        side: "all",
-        color: "border",
-      }}
-    >
+    <Box direction="column" pad="medium" round="small" elevation="small">
       <Form onSubmit={submitCopie} value={bookCopie}>
-        <BookFeatures
-          features={features}
-          changeFeatures={changeFeatures}
-          suggestions={suggestions}
-        />
-        <FormField label="Precio" name="price" />
-        <FormField label="Cantidad" name="quantity" />
+        <Box direction="row-responsive" fill wrap={true}>
+          <Box direction="row" fill basis="full">
+            <BookFeatures
+              features={features}
+              changeFeatures={changeFeatures}
+              suggestions={suggestions}
+            />
+          </Box>
+          <Box direction="row" basis="1/2">
+            <FormFieldWidthAll
+              label="Precio"
+              name="price"
+              type="number"
+              min="0"
+              step="0.1"
+              required
+            />
+          </Box>
+          <Box direction="row" basis="1/2">
+            <FormFieldWidthAll
+              label="Cantidad"
+              name="quantity"
+              type="number"
+              min="0"
+              step="1"
+            />
+          </Box>
+        </Box>
+
         <Box direction="row" justify="end" fill>
           <Button type="submit" icon={<Edit />} />
           <Button icon={<Trash />} onClick={deleteCopie} />
@@ -91,7 +114,7 @@ const BookFeatures = ({ features = [], suggestions = [], changeFeatures }) => {
   }
 
   return (
-    <FormField label="Características" name="features">
+    <FormFieldWidthAll label="Características" name="features">
       <ReactTags
         placeholder=""
         tags={features}
@@ -100,7 +123,7 @@ const BookFeatures = ({ features = [], suggestions = [], changeFeatures }) => {
         handleAddition={handleAddition}
         allowNew={false}
       />
-    </FormField>
+    </FormFieldWidthAll>
   )
 }
 
