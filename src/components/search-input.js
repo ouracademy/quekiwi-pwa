@@ -12,8 +12,13 @@ import {
 import { useEventCallback } from "rxjs-hooks"
 import { of } from "rxjs"
 
-export const SearchInput = ({ onChoose, suggestionsFor }) => {
-  const [value, setValue] = useState("")
+export const SearchInput = ({
+  value: propValue = "",
+  onChoose,
+  suggestionsFor,
+}) => {
+  const [value, setValue] = useStateBasedOn(propValue)
+
   const [suggestionOpen, setSuggestionOpen] = useState(false)
 
   const boxRef = useRef()
@@ -107,4 +112,15 @@ export const SearchInput = ({ onChoose, suggestionsFor }) => {
 const search = (term = "", suggestionsFor) => {
   const searchText = term.trim()
   return searchText ? suggestionsFor(searchText) : of([])
+}
+
+const useStateBasedOn = propValue => {
+  const [value, setValue] = useState(propValue)
+  const [prevPropValue, setPropValue] = useState(null)
+  if (propValue !== prevPropValue) {
+    setPropValue(propValue)
+    setValue(propValue)
+  }
+
+  return [value, setValue]
 }

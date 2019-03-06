@@ -7,6 +7,7 @@ import { SearchInput } from "../../components/search-input"
 import { of } from "rxjs"
 import { Books } from "../../components/book/list"
 import { getBook } from "../../state/book/actions"
+import * as queryString from "query-string"
 
 export const allBooks = [
   {
@@ -22,8 +23,18 @@ export const allBooks = [
   },
 ]
 
-export const Step1 = ({ children }) => {
-  const search = term => navigate(`/book/register/step-1/search/${term}`)
+const SearchBooks = ({ location }) => {
+  const queryParams = queryString.parse(location.search)
+  const searchTerm = queryParams.term || ""
+
+  const books = searchTerm ? allBooks.filter(byTitle(searchTerm)) : []
+
+  const search = term => navigate(`/book/register/step-1?term=${term}`)
+
+  const onChooseBook = id => {
+    getBook(id)
+    navigate(`/book/register/step-2`)
+  }
 
   return (
     <div>
@@ -35,28 +46,21 @@ export const Step1 = ({ children }) => {
         </div>
       </Box>
       <Box>
-        <SearchInput suggestionsFor={getSuggestions} onChoose={search} />
-        {children}
+        <SearchInput
+          value={searchTerm}
+          suggestionsFor={getSuggestions}
+          onChoose={search}
+        />
+        <Books books={books} onChooseBook={onChooseBook} />
       </Box>
     </div>
   )
 }
 
-export const ListBooksPresentation = ({ term = "", getBook }) => {
-  const onChooseBook = id => {
-    getBook(id)
-    navigate(`/book/register/step-2`)
-  }
-
-  const books = allBooks.filter(byTitle(term))
-
-  return <Books books={books} onChooseBook={onChooseBook} />
-}
-
-export const ListBooks = connect(
+export const Step1 = connect(
   null,
   { getBook }
-)(ListBooksPresentation)
+)(SearchBooks)
 
 const getSuggestions = term => {
   return of(allBooks.filter(byTitle(term)).map(book => ({ name: book.title })))
