@@ -20,7 +20,7 @@ const Header = ({ siteTitle, logged, logout }) => (
           gap="medium"
         >
           <Anchor
-            href="/"
+            onClick={() => navigate("/")}
             icon={<Grow size="large" />}
             label={size !== "small" && <Text size="xlarge">{siteTitle}</Text>}
           />
