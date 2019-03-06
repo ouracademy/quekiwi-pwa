@@ -14,7 +14,7 @@ const allSuggestions = [
 export const suggestionsBasedCurrentFeatures = features => {
   return features.reduce((prev, feature) => {
     if (rules[feature.type]["unique"]) {
-      return prev.filter(sug => sug.type != feature.type)
+      return prev.filter(sug => sug.type !== feature.type)
     }
     return prev
   }, allSuggestions)
