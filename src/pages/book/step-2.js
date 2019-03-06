@@ -1,6 +1,6 @@
 import React from "react"
 import { connect } from "react-redux"
-import { Form, FormField, Box, Button } from "grommet"
+import { Form, FormField, Box, Button, Heading } from "grommet"
 import BookCopies from "../../components/book/book-copies"
 import { getBookCopies, addBook } from "../../state/book/actions"
 
@@ -15,7 +15,9 @@ const Step2 = ({ book, getBookCopies, addBook }) => {
 
   return (
     <div>
-      <h3>2. Ingresa ...</h3>
+      <Heading color="neutral-1" level={3}>
+        2. Ingresa ...
+      </Heading>
       <Book getBookCopies={getBookCopies} book={book} addBook={handleAddBook} />
       {!isEmpty(book) && <BookCopies />}
     </div>
