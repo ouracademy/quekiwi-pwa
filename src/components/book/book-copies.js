@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { connect } from "react-redux"
 import { Add, Trash, Edit } from "grommet-icons"
-import { Form, FormField, Box, Heading, Button } from "grommet"
+import { Form, FormField, Box, Button } from "grommet"
 import {
   addBookCopie,
   saveBookCopie,
