@@ -4,7 +4,7 @@ import { Link, navigate } from "@reach/router"
 
 import { SearchInput } from "../../components/search-input"
 import { of } from "rxjs"
-import { Books } from "../../components/book/search"
+import { Books } from "../../components/book/list"
 
 export const allBooks = [
   {
