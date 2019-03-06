@@ -11,6 +11,16 @@ export const standardActions = name => [
   `${name}_FAILED`,
 ]
 
+const getErrorMessage = error => {
+  const defaultResponseMessage = "Ups, ocurrió un error"
+  const existServerResponse = !!error.response
+  if (existServerResponse) {
+    return error.response.message || defaultResponseMessage
+  } else {
+    return "No hay conexion con el servidor"
+  }
+}
+
 export const standardActionsCreator = ([REQUESTED, SUCCESSFULLY, FAILED]) => [
   payload => ({
     type: REQUESTED,
@@ -22,7 +32,7 @@ export const standardActionsCreator = ([REQUESTED, SUCCESSFULLY, FAILED]) => [
   }),
   error => ({
     type: FAILED,
-    payload: error.response.message || "Ups, ocurrió un error",
+    payload: getErrorMessage(error),
   }),
 ]
 
