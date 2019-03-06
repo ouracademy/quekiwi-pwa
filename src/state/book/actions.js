@@ -1,3 +1,8 @@
+export const getBook = id => ({
+  type: "GET_BOOK",
+  payload: id,
+})
+
 export const addBook = book => ({
   type: "BOOK_ADDED",
   payload: book,

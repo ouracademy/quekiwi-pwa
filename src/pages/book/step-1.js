@@ -1,10 +1,12 @@
 import React from "react"
 import { Box } from "grommet"
 import { Link, navigate } from "@reach/router"
+import { connect } from "react-redux"
 
 import { SearchInput } from "../../components/search-input"
 import { of } from "rxjs"
 import { Books } from "../../components/book/list"
+import { getBook } from "../../state/book/actions"
 
 export const allBooks = [
   {
@@ -40,13 +42,21 @@ export const Step1 = ({ children }) => {
   )
 }
 
-export const ListBooks = ({ term = "" }) => {
-  const onChooseBook = id => navigate(`/book/register/step-2?id=${id}`)
+export const ListBooksPresentation = ({ term = "", getBook }) => {
+  const onChooseBook = id => {
+    getBook(id)
+    navigate(`/book/register/step-2`)
+  }
 
   const books = allBooks.filter(byTitle(term))
 
   return <Books books={books} onChooseBook={onChooseBook} />
 }
+
+export const ListBooks = connect(
+  null,
+  { getBook }
+)(ListBooksPresentation)
 
 const getSuggestions = term => {
   return of(allBooks.filter(byTitle(term)).map(book => ({ name: book.title })))
