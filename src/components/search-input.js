@@ -38,7 +38,11 @@ export const SearchInput = ({ onChoose, suggestionsFor }) => {
     onChoose(searchText)
   }
 
-  const onKeyEnter = event => onChoose(value)
+  const onKeyEnter = event => {
+    if (value) {
+      onChoose(value)
+    }
+  }
 
   const renderSuggestions = () => {
     return suggestions.map(({ name }, index, list) => ({
@@ -102,10 +106,5 @@ export const SearchInput = ({ onChoose, suggestionsFor }) => {
 
 const search = (term = "", suggestionsFor) => {
   const searchText = term.trim()
-
-  if (!searchText) {
-    return of([])
-  }
-
-  return suggestionsFor(searchText)
+  return searchText ? suggestionsFor(searchText) : of([])
 }

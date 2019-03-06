@@ -1,5 +1,5 @@
 import React from "react"
-import { Router, Link } from "@reach/router"
+import { Router, Link, navigate } from "@reach/router"
 import Layout from "../../components/layout"
 import Step2 from "./step-2"
 import { SearchBooks } from "../../components/book/search"
@@ -37,7 +37,9 @@ const Step1 = () => (
         <Link to="/book/register/step-2">Registralo aquí</Link>
       </div>
     </Box>
-    <SearchBooks />
+    <SearchBooks
+      onChooseBook={id => navigate(`/book/register/step-2?id=${id}`)}
+    />
   </div>
 )
 

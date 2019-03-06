@@ -1,61 +1,43 @@
 import React, { useState } from "react"
-import { Box, Heading, Anchor } from "grommet"
+import { Box, Heading, Text } from "grommet"
 import { SearchInput } from "../search-input"
 import { of } from "rxjs"
 
-const SearchResult = ({ books }) => (
+const SearchResult = ({ books, onChooseBook }) => (
   <Box justify="center" pad="small" gap="small" direction="column">
     {books.map(book => (
-      <Book key={book.id} {...book} />
+      <Book key={book.id} {...book} onChooseBook={onChooseBook} />
     ))}
   </Box>
 )
 
-const Book = ({ id, title, provider, price, unit }) => (
+const Book = ({ id, title, authors, onChooseBook }) => (
   <Box
-    direction="column"
     pad="medium"
-    width="large"
     height="small"
-    elevation="small"
+    border="bottom"
+    onClick={event => onChooseBook(id)}
   >
-    <Anchor href={`${id}`}>
-      <Heading color="neutral-1" level={5}>
-        {title}
-      </Heading>
-    </Anchor>
-    <Box direction="row">
-      <span> {unit}</span>
-      <Heading color="neutral-1" level={2}>
-        {price}
-      </Heading>
-    </Box>
-    <Box round="medium">{provider}</Box>
+    <Heading level="4">{title}</Heading>
+    <Text>{authors.join(", ")}</Text>
   </Box>
 )
 
 export const allBooks = [
   {
     id: 111,
-    author: "Must Read Summaries",
-    title: "The Lean Startup  Eric Ries",
-    provider: "Amazonas E4",
-    price: "20.00",
-    unit: "S/",
-    features: ["paperWhite", "new"],
+    title: "El método Lean Startup",
+    subtitle: "Cómo crear empresas de éxito utilizando la innovación continua",
+    authors: ["Eric Ries"],
   },
   {
     id: 222,
-    author: "Instaread",
-    title: "Summary of The Lean Startup",
-    provider: "Amazonas B1",
-    price: "10.00",
-    unit: "S/",
-    features: ["paperWhite", "used"],
+    title: "El camino hacia el Lean Startup",
+    authors: ["Eric Ries"],
   },
 ]
 
-export const SearchBooks = () => {
+export const SearchBooks = ({ onChooseBook }) => {
   const [books, setBooks] = useState([])
 
   const search = term => {
@@ -66,7 +48,7 @@ export const SearchBooks = () => {
   return (
     <Box>
       <SearchInput suggestionsFor={getSuggestions} onChoose={search} />
-      <SearchResult books={books} />
+      <SearchResult books={books} onChooseBook={onChooseBook} />
     </Box>
   )
 }
