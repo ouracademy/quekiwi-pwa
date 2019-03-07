@@ -38,14 +38,7 @@ const SearchBooks = ({ location }) => {
   const queryParams = queryString.parse(location.search)
   const searchTerm = queryParams.term || ""
 
-  const books = searchTerm ? allBooks.filter(byTitle(searchTerm)) : []
-
   const search = term => navigate(`/book/register/step-1?term=${term}`)
-
-  const onChooseBook = id => {
-    getBook(id)
-    navigate(`/book/register/step-2`)
-  }
 
   return (
     <div>
@@ -58,24 +51,34 @@ const SearchBooks = ({ location }) => {
             onChoose={search}
           />
         </Box>
-        <Box>
-          <Box direction="row" justify="between" align="start">
-            <h4>
-              {books.length > 0 ? existBooks.message : emptyBooks.message}
-            </h4>
-            <Box align="start" gap="small" direction="row">
-              <Text color="brand" weight="bold">
-                {books.length > 0
-                  ? existBooks.messageForRegister
-                  : emptyBooks.messageForRegister}
-              </Text>
-              <Link to="/book/register/step-2">Registralo aquí</Link>
-            </Box>
-          </Box>
-          <Books books={books} onChooseBook={onChooseBook} />
-        </Box>
+        {searchTerm && <SearchContent searchTerm={searchTerm} />}
       </Box>
     </div>
+  )
+}
+
+const onChooseBook = id => {
+  getBook(id)
+  navigate(`/book/register/step-2`)
+}
+
+const SearchContent = ({ searchTerm }) => {
+  const books = searchTerm ? allBooks.filter(byTitle(searchTerm)) : []
+  return (
+    <Box>
+      <Box direction="row" justify="between" align="start">
+        <h4>{books.length > 0 ? existBooks.message : emptyBooks.message}</h4>
+        <Box align="start" gap="small" direction="row">
+          <Text color="brand" weight="bold">
+            {books.length > 0
+              ? existBooks.messageForRegister
+              : emptyBooks.messageForRegister}
+          </Text>
+          <Link to="/book/register/step-2">Registralo aquí</Link>
+        </Box>
+      </Box>
+      <Books books={books} onChooseBook={onChooseBook} />
+    </Box>
   )
 }
 
