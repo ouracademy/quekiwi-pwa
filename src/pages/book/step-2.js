@@ -26,7 +26,7 @@ const Step2 = ({ book, getBookCopies, addBook }) => {
 
 const Book = ({ book = {}, addBook }) => {
   const submit = ({ value }) => {
-    addBook({ id: 1, ...value })
+    addBook(value)
   }
   return (
     <Box direction="row">
