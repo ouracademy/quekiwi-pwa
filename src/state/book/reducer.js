@@ -1,4 +1,6 @@
-export const reducer = (prevState = { book: {}, bookCopies: [] }, action) => {
+import reduceReducers from "reduce-reducers"
+import { reducer as addBookReducer } from "./create-book"
+const initialReducer = (prevState = { book: {}, bookCopies: [] }, action) => {
   const { type } = action
 
   switch (type) {
@@ -43,7 +45,18 @@ export const reducer = (prevState = { book: {}, bookCopies: [] }, action) => {
         ...prevState,
         book: action.payload,
       }
+    case "BOOK_ADDED_SUCCESFULLY":
+      return {
+        ...prevState,
+        book: action.payload,
+      }
     default:
       return prevState
   }
 }
+const initialState = { book: {}, bookCopies: [] }
+export const books = reduceReducers(
+  addBookReducer,
+  initialReducer,
+  initialState
+)

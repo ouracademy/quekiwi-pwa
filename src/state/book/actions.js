@@ -3,10 +3,6 @@ export const getBook = id => ({
   payload: id,
 })
 
-export const addBook = book => ({
-  type: "BOOK_ADDED",
-  payload: book,
-})
 export const getBookCopies = query => ({
   type: "BOOK_COPIES_REQUESTED",
   payload: query,
@@ -25,3 +21,5 @@ export const deleteBookCopie = id => ({
   type: "BOOK_COPIES_DELETED",
   payload: id,
 })
+
+export { addBook } from "./create-book"
