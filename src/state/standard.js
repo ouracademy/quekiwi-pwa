@@ -3,9 +3,13 @@ export const initialState = {
   loading: false,
   error: null,
   token: null,
+  payload: null,
+}
+const getInitialState = name => {
+  return { ...initialState, [name]: null }
 }
 
-export const standardActions = name => [
+const standardActions = name => [
   `${name}_REQUESTED`,
   `${name}_SUCCESSFULLY`,
   `${name}_FAILED`,
@@ -20,8 +24,7 @@ const getErrorMessage = error => {
     return "No hay conexion con el servidor"
   }
 }
-
-export const standardActionsCreator = ([REQUESTED, SUCCESSFULLY, FAILED]) => [
+const standardActionsCreator = ([REQUESTED, SUCCESSFULLY, FAILED]) => [
   payload => ({
     type: REQUESTED,
     payload,
@@ -36,7 +39,10 @@ export const standardActionsCreator = ([REQUESTED, SUCCESSFULLY, FAILED]) => [
   }),
 ]
 
-export const standardReducer = types => (prevState = initialState, action) => {
+const standardReducer = (types, nameResponseAs) => (
+  prevState = getInitialState(nameResponseAs),
+  action
+) => {
   const [REQUESTED, SUCCESSFULLY, FAILED] = types
 
   const { type, payload } = action
@@ -49,7 +55,9 @@ export const standardReducer = types => (prevState = initialState, action) => {
         loading: false,
         error: null,
         token: payload.token,
+        payload: payload,
         logged: true,
+        ...(nameResponseAs && { [nameResponseAs]: payload }),
       }
     case FAILED:
       return { ...prevState, loading: false, error: payload }
@@ -58,10 +66,13 @@ export const standardReducer = types => (prevState = initialState, action) => {
   }
 }
 
-export const getStandardFor = name => {
+export const getStandardRequestFor = (
+  name,
+  options = { nameResponseAs: null }
+) => {
   const actionTypes = standardActions(name)
   const actionCreators = standardActionsCreator(actionTypes)
-  const reducer = standardReducer(actionTypes)
+  const reducer = standardReducer(actionTypes, options.nameResponseAs)
 
   return { actionTypes, actionCreators, reducer }
 }
