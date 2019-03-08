@@ -1,5 +1,5 @@
 import { getStandardRequestFor } from "../standard"
-import { standardEpic } from "../standard-epic"
+import { standardEpic } from "../standard-request/epic"
 
 const { actionTypes, actionCreators, reducer } = getStandardRequestFor(
   "BOOK_ADDED",

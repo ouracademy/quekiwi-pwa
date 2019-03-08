@@ -2,6 +2,7 @@ import { ofType } from "redux-observable"
 import { ajax } from "rxjs/ajax"
 import { mergeMap, map, catchError } from "rxjs/operators"
 import { of } from "rxjs"
+
 export const standardEpic = (
   type,
   actionCreatorSuccess,
