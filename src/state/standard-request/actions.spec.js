@@ -1,11 +1,11 @@
-import { standardActionsCreator } from "./state/standard"
+import { actionsCreator } from "./actions"
 
 describe("standardActionsCreator", () => {
   const [
     getSomething,
     getSomethingSuccessfully,
     getSomethingFailed,
-  ] = standardActionsCreator(["REQUESTED", "SUCCESSFULLY", "FAILED"])
+  ] = actionsCreator(["REQUESTED", "SUCCESSFULLY", "FAILED"])
 
   test("getSomething", () => {
     expect(getSomething("anything like an id")).toEqual({
