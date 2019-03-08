@@ -5,6 +5,7 @@ export const initialState = {
   token: null,
   payload: null,
 }
+
 const getInitialState = name => {
   return { ...initialState, [name]: null }
 }
@@ -16,22 +17,27 @@ const standardActions = name => [
 ]
 
 const getErrorMessage = error => {
-  const defaultResponseMessage = "Ups, ocurrió un error"
-  const existServerResponse = !!error.response
-  if (existServerResponse) {
-    return error.response.message || defaultResponseMessage
-  } else {
-    return "No hay conexion con el servidor"
-  }
+  const defaultResponseMessage =
+    "Ups algo salio mal, por favor recargue la página e inténtelo de nuevo, " +
+    "si es que esto no funciona por favor escribanos"
+
+  return (
+    (error.response && error.response.message) ||
+    // TODO: this should be logged to a server in order to get more information
+    // of any kind of errors usually this error happens when the back-end
+    // server is down (more info, see .spec)
+    defaultResponseMessage
+  )
 }
-const standardActionsCreator = ([REQUESTED, SUCCESSFULLY, FAILED]) => [
+
+export const standardActionsCreator = ([REQUESTED, SUCCESSFULLY, FAILED]) => [
   payload => ({
     type: REQUESTED,
     payload,
   }),
-  response => ({
+  ajaxResponse => ({
     type: SUCCESSFULLY,
-    payload: response.response,
+    payload: ajaxResponse.response,
   }),
   error => ({
     type: FAILED,
