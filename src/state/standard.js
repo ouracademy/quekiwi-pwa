@@ -9,7 +9,7 @@ export const initialState = {
 }
 
 const getInitialState = name => {
-  return { ...initialState, [name]: null }
+  return name ? { ...initialState, [name]: null } : initialState
 }
 
 export const standardReducer = (types, nameResponseAs) => (
