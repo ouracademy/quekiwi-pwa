@@ -1,13 +1,15 @@
 import React from "react"
-import { connect } from "react-redux"
 import { Form, FormField, Box, Button, Heading } from "grommet"
-import { addBook } from "../../state/book/actions"
 import { navigate } from "@reach/router"
+import { ajax } from "rxjs/ajax"
 
-const AddNewBook = ({ addBook }) => {
+const addBook = book => ajax.post("http://localhost:3000/books", book)
+
+export const AddNewBook = () => {
   const handleAddBook = book => {
     addBook(book)
-    navigate("/book/register/step-2")
+      .toPromise()
+      .then(book => navigate("/book/register/step-2"))
   }
 
   return (
@@ -20,27 +22,20 @@ const AddNewBook = ({ addBook }) => {
   )
 }
 
-const Book = ({ addBook }) => {
-  const submit = ({ value }) => {
-    addBook(value)
-  }
-
-  return (
-    <Box direction="row">
-      <Cover />
-      <Form onSubmit={submit}>
-        <FormField label="Titulo" name="title" required />
-        <FormField label="Subtitulo" name="subtitle" />
-        <Button type="submit" label="Ingresar" primary />
-      </Form>
-    </Box>
-  )
-}
+const Book = ({ addBook }) => (
+  <Box direction="row">
+    <Cover />
+    <Form
+      onSubmit={({ value }) => {
+        addBook(value)
+      }}
+    >
+      <FormField label="Titulo" name="title" required />
+      <FormField label="Subtitulo" name="subtitle" />
+      <Button type="submit" label="Ingresar" primary />
+    </Form>
+  </Box>
+)
 
 // TODO: cover with a main image & below three images
 const Cover = () => <div />
-
-export const New = connect(
-  null,
-  { addBook }
-)(AddNewBook)

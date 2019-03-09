@@ -3,7 +3,7 @@ import { Router } from "@reach/router"
 import Layout from "../../components/layout"
 import Step2 from "./step-2"
 import { Search } from "./search"
-import { New } from "./new"
+import { AddNewBook } from "./new"
 
 export default () => {
   return (
@@ -12,7 +12,7 @@ export default () => {
         <Root path="book">
           <Register path="register">
             <Search path="search" />
-            <New path="new" />
+            <AddNewBook path="new" />
             <Step2 path="step-2" />
           </Register>
           <BookDetail path=":id" />
