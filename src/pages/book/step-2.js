@@ -1,11 +1,13 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { connect } from "react-redux"
 import { Heading } from "grommet"
 import BookCopies from "../../components/book/book-copies"
 import { getBookCopies, addBook } from "../../state/book/actions"
 
 const Step2 = ({ book, getBookCopies }) => {
-  getBookCopies({ id: book.id })
+  useEffect(() => {
+    getBookCopies({ id: book.id })
+  })
 
   return (
     <div>
