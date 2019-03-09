@@ -7,7 +7,6 @@ test("reducer", () => {
     error: null,
     loading: false,
     logged: false,
-    payload: null,
     token: null,
   })
 

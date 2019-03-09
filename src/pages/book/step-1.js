@@ -74,7 +74,7 @@ const SearchContent = ({ searchTerm }) => {
               ? existBooks.messageForRegister
               : emptyBooks.messageForRegister}
           </Text>
-          <Link to="/book/register/step-2">Registralo aquí</Link>
+          <Link to="/book/register/new">Registralo aquí</Link>
         </Box>
       </Box>
       <Books books={books} onChooseBook={onChooseBook} />

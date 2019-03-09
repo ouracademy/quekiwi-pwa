@@ -3,6 +3,7 @@ import { Router } from "@reach/router"
 import Layout from "../../components/layout"
 import Step2 from "./step-2"
 import { Step1 } from "./step-1"
+import { New } from "./new"
 
 export default () => {
   return (
@@ -10,6 +11,7 @@ export default () => {
       <Router>
         <Root path="book">
           <Register path="register">
+            <New path="new" />
             <Step1 path="step-1" />
             <Step2 path="step-2" />
           </Register>
