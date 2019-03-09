@@ -2,9 +2,9 @@ import React from "react"
 import { Box, Text } from "grommet"
 import { navigate, Link } from "@reach/router"
 import { connect } from "react-redux"
-
+import { ajax } from "rxjs/ajax"
 import { SearchInput } from "../../components/search-input"
-import { of } from "rxjs"
+import { pluck } from "rxjs/operators"
 import { Books } from "../../components/book/list"
 import { getBook } from "../../state/book/actions"
 import * as queryString from "query-string"
@@ -68,7 +68,11 @@ const SearchBooks = ({ location, getBook }) => {
 }
 
 const SearchContent = ({ searchTerm, onChooseBook }) => {
-  const books = searchTerm ? allBooks.filter(byTitle(searchTerm)) : []
+  const onChooseBook = id => {
+    getBook(id)
+    navigate(`/book/register/step-2`)
+  }
+
   return (
     <Box>
       <Box direction="row" justify="between" align="start">
@@ -93,9 +97,13 @@ export const Search = connect(
 )(SearchBooks)
 
 const getSuggestions = term => {
-  return of(allBooks.filter(byTitle(term)).map(book => ({ name: book.title })))
+  return ajax
+    .get(`http://localhost:3000/books/autocomplete?title=${term}`)
+    .pipe(pluck("response"))
 }
 
-function byTitle(term) {
-  return ({ title }) => title.toLowerCase().indexOf(term.toLowerCase()) >= 0
+const findByTitle = title => {
+  return ajax
+    .post(`http://localhost:3000/books/findBy`, { title })
+    .pipe(pluck("response"))
 }
