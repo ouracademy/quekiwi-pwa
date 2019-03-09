@@ -34,11 +34,16 @@ const [existBooks, emptyBooks] = [
   },
 ]
 
-const SearchBooks = ({ location }) => {
+const SearchBooks = ({ location, getBook }) => {
   const queryParams = queryString.parse(location.search)
   const searchTerm = queryParams.term || ""
 
   const search = term => navigate(`/book/register/search?term=${term}`)
+
+  const goToAddBookCopies = id => {
+    getBook(id)
+    navigate(`/book/register/step-2`)
+  }
 
   return (
     <div>
@@ -51,18 +56,18 @@ const SearchBooks = ({ location }) => {
             onChoose={search}
           />
         </Box>
-        {searchTerm && <SearchContent searchTerm={searchTerm} />}
+        {searchTerm && (
+          <SearchContent
+            searchTerm={searchTerm}
+            onChooseBook={goToAddBookCopies}
+          />
+        )}
       </Box>
     </div>
   )
 }
 
-const onChooseBook = id => {
-  getBook(id)
-  navigate(`/book/register/step-2`)
-}
-
-const SearchContent = ({ searchTerm }) => {
+const SearchContent = ({ searchTerm, onChooseBook }) => {
   const books = searchTerm ? allBooks.filter(byTitle(searchTerm)) : []
   return (
     <Box>
