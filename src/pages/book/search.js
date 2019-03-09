@@ -1,13 +1,15 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { Box, Text } from "grommet"
 import { navigate, Link } from "@reach/router"
 import { connect } from "react-redux"
 import { ajax } from "rxjs/ajax"
 import { SearchInput } from "../../components/search-input"
-import { pluck } from "rxjs/operators"
+import { pluck, tap, switchMap } from "rxjs/operators"
 import { Books } from "../../components/book/list"
 import { getBook } from "../../state/book/actions"
 import * as queryString from "query-string"
+import { useObservable } from "rxjs-hooks"
+import { of } from "rxjs"
 
 export const allBooks = [
   {
@@ -38,6 +40,15 @@ const SearchBooks = ({ location, getBook }) => {
   const queryParams = queryString.parse(location.search)
   const searchTerm = queryParams.term || ""
 
+  const [books, setBooks] = useState([])
+  useEffect(() => {
+    const $books = findByTitle(searchTerm).subscribe({
+      next: setBooks,
+    })
+
+    return () => $books.unsubscribe()
+  }, [searchTerm])
+
   const search = term => navigate(`/book/register/search?term=${term}`)
 
   const goToAddBookCopies = id => {
@@ -57,39 +68,29 @@ const SearchBooks = ({ location, getBook }) => {
           />
         </Box>
         {searchTerm && (
-          <SearchContent
-            searchTerm={searchTerm}
-            onChooseBook={goToAddBookCopies}
-          />
+          <SearchContent books={books} onChooseBook={goToAddBookCopies} />
         )}
       </Box>
     </div>
   )
 }
 
-const SearchContent = ({ searchTerm, onChooseBook }) => {
-  const onChooseBook = id => {
-    getBook(id)
-    navigate(`/book/register/step-2`)
-  }
-
-  return (
-    <Box>
-      <Box direction="row" justify="between" align="start">
-        <h4>{books.length > 0 ? existBooks.message : emptyBooks.message}</h4>
-        <Box align="start" gap="small" direction="row">
-          <Text color="brand" weight="bold">
-            {books.length > 0
-              ? existBooks.messageForRegister
-              : emptyBooks.messageForRegister}
-          </Text>
-          <Link to="/book/register/new">Registralo aquí</Link>
-        </Box>
+const SearchContent = ({ books, onChooseBook }) => (
+  <Box>
+    <Box direction="row" justify="between" align="start">
+      <h4>{books.length > 0 ? existBooks.message : emptyBooks.message}</h4>
+      <Box align="start" gap="small" direction="row">
+        <Text color="brand" weight="bold">
+          {books.length > 0
+            ? existBooks.messageForRegister
+            : emptyBooks.messageForRegister}
+        </Text>
+        <Link to="/book/register/new">Registralo aquí</Link>
       </Box>
-      <Books books={books} onChooseBook={onChooseBook} />
     </Box>
-  )
-}
+    <Books books={books} onChooseBook={onChooseBook} />
+  </Box>
+)
 
 export const Search = connect(
   null,

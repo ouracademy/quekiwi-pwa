@@ -8,7 +8,7 @@ export const Books = ({ books, onChooseBook }) => (
   </Box>
 )
 
-const Book = ({ id, title, authors, onChooseBook }) => (
+const Book = ({ id, title, authors = [], onChooseBook }) => (
   <Box
     pad="medium"
     height="small"
