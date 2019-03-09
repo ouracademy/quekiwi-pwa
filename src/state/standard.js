@@ -5,7 +5,6 @@ export const initialState = {
   loading: false,
   error: null,
   token: null,
-  payload: null,
 }
 
 const getInitialState = name => {
@@ -28,7 +27,6 @@ export const standardReducer = (types, nameResponseAs) => (
         loading: false,
         error: null,
         token: payload.token,
-        payload: payload,
         logged: true,
         ...(nameResponseAs && { [nameResponseAs]: payload }),
       }
