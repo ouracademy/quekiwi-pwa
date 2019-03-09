@@ -4,12 +4,10 @@ import { navigate, Link } from "@reach/router"
 import { connect } from "react-redux"
 import { ajax } from "rxjs/ajax"
 import { SearchInput } from "../../components/search-input"
-import { pluck, tap, switchMap } from "rxjs/operators"
+import { pluck } from "rxjs/operators"
 import { Books } from "../../components/book/list"
 import { getBook } from "../../state/book/actions"
 import * as queryString from "query-string"
-import { useObservable } from "rxjs-hooks"
-import { of } from "rxjs"
 
 export const allBooks = [
   {
