@@ -38,7 +38,7 @@ const SearchBooks = ({ location }) => {
   const queryParams = queryString.parse(location.search)
   const searchTerm = queryParams.term || ""
 
-  const search = term => navigate(`/book/register/step-1?term=${term}`)
+  const search = term => navigate(`/book/register/search?term=${term}`)
 
   return (
     <div>
@@ -82,7 +82,7 @@ const SearchContent = ({ searchTerm }) => {
   )
 }
 
-export const Step1 = connect(
+export const Search = connect(
   null,
   { getBook }
 )(SearchBooks)
