@@ -95,14 +95,14 @@ export const Search = connect(
   { getBook }
 )(SearchBooks)
 
-const getSuggestions = term => {
+const getSuggestions = title => {
   return ajax
-    .get(`http://localhost:3000/books/autocomplete?title=${term}`)
+    .get(`http://localhost:3000/books/autocomplete?title=${title}`)
     .pipe(pluck("response"))
 }
 
 const findByTitle = title => {
   return ajax
-    .post(`http://localhost:3000/books/findBy`, { title })
+    .get(`http://localhost:3000/books/short-info?title=${title}`)
     .pipe(pluck("response"))
 }
