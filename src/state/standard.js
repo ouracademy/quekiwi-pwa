@@ -12,7 +12,7 @@ const getInitialState = name => {
   return { ...initialState, [name]: null }
 }
 
-const standardReducer = (types, nameResponseAs) => (
+export const standardReducer = (types, nameResponseAs) => (
   prevState = getInitialState(nameResponseAs),
   action
 ) => {
@@ -39,13 +39,10 @@ const standardReducer = (types, nameResponseAs) => (
   }
 }
 
-export const getStandardRequestFor = (
-  name,
-  options = { nameResponseAs: null }
-) => {
+export const getStandardRequestFor = (name, options = { onSuccess: null }) => {
   const actionTypes = actions(name)
   const actionCreators = actionsCreator(actionTypes)
-  const reducer = standardReducer(actionTypes, options.nameResponseAs)
+  const reducer = standardReducer(actionTypes, options.onSuccess)
 
   return { actionTypes, actionCreators, reducer }
 }
