@@ -36,7 +36,15 @@ const Actions = ({ logged, logout }) => (
     {logged ? (
       <Menu
         label="Bienvenido :)"
-        items={[{ label: "Salir", onClick: () => logout() }]}
+        items={[
+          {
+            label: "Salir",
+            onClick: () => {
+              logout()
+              navigate("/")
+            },
+          },
+        ]}
       />
     ) : (
       <Box direction="row" gap="small">
