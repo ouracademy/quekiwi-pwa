@@ -1,5 +1,4 @@
 import reduceReducers from "reduce-reducers"
-import { reducer as addBookReducer } from "./create-book"
 const initialReducer = (prevState = { book: {}, bookCopies: [] }, action) => {
   const { type } = action
 
@@ -55,8 +54,4 @@ const initialReducer = (prevState = { book: {}, bookCopies: [] }, action) => {
   }
 }
 const initialState = { book: {}, bookCopies: [] }
-export const books = reduceReducers(
-  addBookReducer,
-  initialReducer,
-  initialState
-)
+export const books = reduceReducers(initialReducer, initialState)

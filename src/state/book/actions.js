@@ -21,5 +21,3 @@ export const deleteBookCopie = id => ({
   type: "BOOK_COPIES_DELETED",
   payload: id,
 })
-
-export { addBook } from "./create-book"
