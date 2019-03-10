@@ -2,14 +2,16 @@ import React from "react"
 import { Form, FormField, Box, Button, Heading } from "grommet"
 import { navigate } from "@reach/router"
 import { ajax } from "rxjs/ajax"
+import { pluck } from "rxjs/operators"
 
-const addBook = book => ajax.post("http://localhost:3000/books", book)
+const addBook = book =>
+  ajax.post("http://localhost:3000/books", book).pipe(pluck("response"))
 
 export const AddNewBook = () => {
   const handleAddBook = book => {
     addBook(book)
       .toPromise()
-      .then(book => navigate("/book/register/step-2"))
+      .then(book => navigate(`/book/register/${book.id}/copies`))
   }
 
   return (

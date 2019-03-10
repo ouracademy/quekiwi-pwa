@@ -1,7 +1,7 @@
 import React from "react"
 import { Router } from "@reach/router"
 import Layout from "../../components/layout"
-import Step2 from "./step-2"
+import { AddBookCopies } from "./step-2"
 import { Search } from "./search"
 import { AddNewBook } from "./new"
 
@@ -13,7 +13,7 @@ export default () => {
           <Register path="register">
             <Search path="search" />
             <AddNewBook path="new" />
-            <Step2 path="step-2" />
+            <AddBookCopies path="/:id/copies" />
           </Register>
           <BookDetail path=":id" />
         </Root>

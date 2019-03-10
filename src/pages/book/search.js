@@ -51,7 +51,7 @@ const SearchBooks = ({ location, getBook }) => {
 
   const goToAddBookCopies = id => {
     getBook(id)
-    navigate(`/book/register/step-2`)
+    navigate(`/book/register/${id}/copies`)
   }
 
   return (
