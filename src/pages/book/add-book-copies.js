@@ -24,7 +24,7 @@ const FormAddBookCopies = ({ id, getBookCopies }) => {
       {book ? (
         <div>
           <Heading color="neutral-1" level={3}>
-            Agrega tus ejemplares del libro {book.title}
+            Mis ejemplares del libro {book.title}
           </Heading>
           <BookCopies />
         </div>

@@ -17,28 +17,29 @@ const FormFieldWidthAll = styled(FormField)`
   margin: 10px;
 `
 
-const BookCopies = ({
-  bookCopies,
-  bookId,
-  addBookCopie,
-  saveBookCopie,
-  deleteBookCopie,
-}) => {
-  const add = () => {
-    addBookCopie({ bookId, id: bookCopies.length + 1 })
+const BookCopies = ({ bookId, bookCopies, deleteBookCopie, addBookCopie }) => {
+  const [showForm, setShowForm] = useState(false)
+
+  const add = bookCopy => {
+    addBookCopie({ bookId, id: new Date().getTime(), ...bookCopy })
+    setShowForm(false)
   }
+
   return (
     <Box>
       <Box direction="row" gap="small" align="center">
-        <div>Ejemplares</div>
-        <Button icon={<Add color="brand" />} onClick={add} />
+        <div>Añadir ejemplares</div>
+        <Button
+          icon={<Add color="brand" />}
+          onClick={() => setShowForm(true)}
+        />
       </Box>
+      {showForm && <FormBookCopie saveBookCopie={add} />}
       <Box direction="column" gap="small">
-        {bookCopies.map((x, index) => (
+        {bookCopies.map(x => (
           <BookCopie
-            key={index}
+            key={x.id}
             bookCopie={x}
-            saveBookCopie={saveBookCopie}
             deleteBookCopie={deleteBookCopie}
           />
         ))}
@@ -46,16 +47,34 @@ const BookCopies = ({
     </Box>
   )
 }
-const BookCopie = ({ bookCopie = {}, saveBookCopie, deleteBookCopie }) => {
+
+const BookCopie = ({ bookCopie, deleteBookCopie }) => {
+  const deleteCopie = () => {
+    deleteBookCopie(bookCopie.id)
+  }
+
+  return (
+    <Box direction="row" align="center">
+      <Box width="medium">
+        {bookCopie.quantity} {bookCopie.features.map(x => x.name).join(", ")} a
+        s/. {bookCopie.price}
+      </Box>
+      <Box direction="row" justify="end" fill>
+        <Button type="submit" icon={<Edit />} />
+        <Button icon={<Trash />} onClick={deleteCopie} />
+      </Box>
+    </Box>
+  )
+}
+
+const FormBookCopie = ({ bookCopie = {}, saveBookCopie }) => {
   const [features, setFeatures] = useState(bookCopie.features || [])
   const [suggestions, setSuggestions] = useState(
     suggestionsBasedCurrentFeatures(features)
   )
+
   const submitCopie = ({ value }) => {
     saveBookCopie({ ...bookCopie, ...value, features: features })
-  }
-  const deleteCopie = () => {
-    deleteBookCopie(bookCopie.id)
   }
 
   const changeFeatures = features => {
@@ -93,11 +112,7 @@ const BookCopie = ({ bookCopie = {}, saveBookCopie, deleteBookCopie }) => {
               step="1"
             />
           </Box>
-        </Box>
-
-        <Box direction="row" justify="end" fill>
-          <Button type="submit" icon={<Edit />} />
-          <Button icon={<Trash />} onClick={deleteCopie} />
+          <Button type="submit" label="Guardar" />
         </Box>
       </Form>
     </Box>
