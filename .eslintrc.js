@@ -1,6 +1,6 @@
 module.exports = {
   extends: ["standard", "prettier", "plugin:jest/recommended"],
-  plugins: ["standard", "react", "jest"],
+  plugins: ["standard", "react", "react-hooks", "jest"],
   rules: {
     "no-var": "error", // optional, recommended when using es6+
     "no-unused-vars": 1, // recommended
@@ -25,6 +25,10 @@ module.exports = {
     // react plugin - options
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
+
+    // hooks
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
   },
   parser: "babel-eslint",
   parserOptions: {
