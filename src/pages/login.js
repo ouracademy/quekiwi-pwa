@@ -1,9 +1,8 @@
 import React, { useEffect } from "react"
-import { Link } from "gatsby"
+import { Link, navigate } from "gatsby"
 import { Box, Button, Form, FormField, Heading } from "grommet"
 import { FormClock } from "grommet-icons"
 import { connect } from "react-redux"
-import { navigate } from "gatsby"
 import { toast } from "react-toastify"
 
 import SEO from "../components/seo"
