@@ -1,6 +1,6 @@
 module.exports = {
-  extends: ["standard"],
-  plugins: ["standard", "react"],
+  extends: ["standard", "plugin:jest/recommended"],
+  plugins: ["standard", "react", "jest"],
   rules: {
     "no-var": "error", // optional, recommended when using es6+
     "no-unused-vars": 1, // recommended

@@ -28,12 +28,12 @@ describe("standardActionsCreator", () => {
       expect(getSomethingFailed(new Error("Super dumpy error"))).toEqual({
         type: "FAILED",
         payload:
-          "Ups algo salio mal, por favor recargue la página e inténtelo de nuevo, " +
-          "si es que esto no funciona por favor escribanos",
+          "Ups algo salio mal, por favor recargue la página e inténtelo" +
+          " de nuevo, si es que esto no funciona por favor escribanos",
       })
     })
 
-    it("should send a message on server error response but without message", () => {
+    it("should send a message on server error response", () => {
       expect(
         getSomethingFailed({
           response: {
@@ -44,8 +44,8 @@ describe("standardActionsCreator", () => {
       ).toEqual({
         type: "FAILED",
         payload:
-          "Ups algo salio mal, por favor recargue la página e inténtelo de nuevo, " +
-          "si es que esto no funciona por favor escribanos",
+          "Ups algo salio mal, por favor recargue la página e inténtelo" +
+          " de nuevo, si es que esto no funciona por favor escribanos",
       })
     })
 
