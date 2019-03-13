@@ -1,4 +1,4 @@
-import { getStandardRequestFor } from "../../standard"
+import { getStandardRequestFor } from "../../standard-request"
 
 const { actionTypes, actionCreators, reducer } = getStandardRequestFor("SIGNUP")
 

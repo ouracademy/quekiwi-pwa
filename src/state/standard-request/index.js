@@ -1,4 +1,4 @@
-import { actionsCreator, actions } from "./standard-request/actions"
+import { actionsCreator, actions } from "./actions"
 
 export const initialState = {
   logged: false,
