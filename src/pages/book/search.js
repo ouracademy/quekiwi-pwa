@@ -6,7 +6,6 @@ import { ajax } from "rxjs/ajax"
 import { SearchInput } from "../../components/search-input"
 import { pluck } from "rxjs/operators"
 import { Books } from "../../components/book/list"
-import { getBook } from "../../state/book/actions"
 import * as queryString from "query-string"
 
 export const allBooks = [
@@ -50,7 +49,6 @@ const SearchBooks = ({ location, getBook }) => {
   const search = term => navigate(`/book/register/search?term=${term}`)
 
   const goToAddBookCopies = id => {
-    getBook(id)
     navigate(`/book/register/${id}/copies`)
   }
 

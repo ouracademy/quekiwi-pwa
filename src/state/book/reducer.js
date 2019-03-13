@@ -3,16 +3,6 @@ const initialReducer = (prevState = { book: {}, bookCopies: [] }, action) => {
   const { type } = action
 
   switch (type) {
-    case "GET_BOOK":
-      // TODO: replace this, should not exist
-      return {
-        ...prevState,
-        book: {
-          ...action.payload,
-          title: "In reducer",
-          subtitle: "title of a reducer",
-        },
-      }
     case "BOOK_COPIES_REQUESTED":
       return prevState
     case "BOOK_COPIES_ADDED":

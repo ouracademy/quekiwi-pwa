@@ -1,8 +1,3 @@
-export const getBook = id => ({
-  type: "GET_BOOK",
-  payload: id,
-})
-
 export const getBookCopies = query => ({
   type: "BOOK_COPIES_REQUESTED",
   payload: query,
