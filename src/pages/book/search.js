@@ -7,20 +7,6 @@ import { pluck } from "rxjs/operators"
 import { Books } from "../../components/book/list"
 import * as queryString from "query-string"
 
-export const allBooks = [
-  {
-    id: 111,
-    title: "El método Lean Startup",
-    subtitle: "Cómo crear empresas de éxito utilizando la innovación continua",
-    authors: ["Eric Ries"],
-  },
-  {
-    id: 222,
-    title: "El camino hacia el Lean Startup",
-    authors: ["Eric Ries"],
-  },
-]
-
 const [existBooks, emptyBooks] = [
   {
     message: "¿Cuál de los siguientes es el libro que vas a registrar?",
