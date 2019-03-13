@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { Box, Text } from "grommet"
 import { navigate, Link } from "@reach/router"
-import { connect } from "react-redux"
 import { ajax } from "rxjs/ajax"
 import { SearchInput } from "../../components/search-input"
 import { pluck } from "rxjs/operators"
@@ -33,7 +32,7 @@ const [existBooks, emptyBooks] = [
   },
 ]
 
-const SearchBooks = ({ location, getBook }) => {
+export const Search = ({ location, getBook }) => {
   const queryParams = queryString.parse(location.search)
   const searchTerm = queryParams.term || ""
 
@@ -95,11 +94,6 @@ const SearchContent = ({ books, onChooseBook, searchTerm }) => (
     <Books books={books} onChooseBook={onChooseBook} />
   </Box>
 )
-
-export const Search = connect(
-  null,
-  { getBook }
-)(SearchBooks)
 
 const getSuggestions = title => {
   return ajax
