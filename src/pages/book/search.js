@@ -66,14 +66,18 @@ const SearchBooks = ({ location, getBook }) => {
           />
         </Box>
         {searchTerm && (
-          <SearchContent books={books} onChooseBook={goToAddBookCopies} />
+          <SearchContent
+            books={books}
+            searchTerm={searchTerm}
+            onChooseBook={goToAddBookCopies}
+          />
         )}
       </Box>
     </div>
   )
 }
 
-const SearchContent = ({ books, onChooseBook }) => (
+const SearchContent = ({ books, onChooseBook, searchTerm }) => (
   <Box>
     <Box direction="row" justify="between" align="start">
       <h4>{books.length > 0 ? existBooks.message : emptyBooks.message}</h4>
@@ -83,7 +87,11 @@ const SearchContent = ({ books, onChooseBook }) => (
             ? existBooks.messageForRegister
             : emptyBooks.messageForRegister}
         </Text>
-        <Link to="/book/register/new">Registralo aquí</Link>
+        <Link
+          to={`/book/register/new${searchTerm ? "?title=" + searchTerm : ""}`}
+        >
+          Registralo aquí
+        </Link>
       </Box>
     </Box>
     <Books books={books} onChooseBook={onChooseBook} />
