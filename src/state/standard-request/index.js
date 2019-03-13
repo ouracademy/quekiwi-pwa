@@ -1,18 +1,13 @@
 import { actionsCreator, actions } from "./actions"
 
-export const initialState = {
-  logged: false,
+export const getInitialState = options => ({
   loading: false,
   error: null,
-  token: null,
-}
+  ...options.getInitialState(),
+})
 
-const getInitialState = name => {
-  return name ? { ...initialState, [name]: null } : initialState
-}
-
-export const standardReducer = (types, nameResponseAs) => (
-  prevState = getInitialState(nameResponseAs),
+export const standardReducer = (types, initialState, stateOnSuccess) => (
+  prevState = initialState,
   action
 ) => {
   const [REQUESTED, SUCCESSFULLY, FAILED] = types
@@ -26,9 +21,7 @@ export const standardReducer = (types, nameResponseAs) => (
         ...prevState,
         loading: false,
         error: null,
-        token: payload.token,
-        logged: true,
-        ...(nameResponseAs && { [nameResponseAs]: payload }),
+        ...stateOnSuccess(payload),
       }
     case FAILED:
       return { ...prevState, loading: false, error: payload }
@@ -37,10 +30,20 @@ export const standardReducer = (types, nameResponseAs) => (
   }
 }
 
-export const getStandardRequestFor = (name, options = { onSuccess: null }) => {
+const defaultOptions = {
+  getInitialState: () => ({}),
+  stateOnSuccess: payload => payload,
+}
+
+export const getStandardRequestFor = (name, options = defaultOptions) => {
   const actionTypes = actions(name)
   const actionCreators = actionsCreator(actionTypes)
-  const reducer = standardReducer(actionTypes, options.onSuccess)
+  const initialState = getInitialState(options)
+  const reducer = standardReducer(
+    actionTypes,
+    initialState,
+    options.stateOnSuccess
+  )
 
-  return { actionTypes, actionCreators, reducer }
+  return { actionTypes, actionCreators, reducer, initialState }
 }
