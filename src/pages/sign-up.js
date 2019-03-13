@@ -5,7 +5,7 @@ import { Box, Button, Form, FormField, Heading } from "grommet"
 import { FormClock } from "grommet-icons"
 import { connect } from "react-redux"
 import SEO from "../components/seo"
-import { signUp } from "../state/auth/sign-up/actions"
+import { signUp } from "../state/auth/sign-up"
 
 const SignupPage = ({ loading, logged, error, signUp }) => {
   useEffect(() => {
