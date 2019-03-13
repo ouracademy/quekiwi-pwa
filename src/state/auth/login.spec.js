@@ -1,4 +1,4 @@
-import { reducer, loginSuccessFully } from "./actions"
+import { reducer, loginSuccessFully } from "./login"
 
 test("reducer", () => {
   let state = reducer(undefined, { type: "INIT" })

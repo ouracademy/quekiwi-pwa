@@ -6,7 +6,7 @@ import { connect } from "react-redux"
 import { toast } from "react-toastify"
 
 import SEO from "../components/seo"
-import { login } from "../state/auth/login/actions"
+import { login } from "../state/auth/login"
 
 const LoginPage = ({ login, loading, logged, error }) => {
   useEffect(() => {
