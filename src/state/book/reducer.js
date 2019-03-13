@@ -29,16 +29,6 @@ const initialReducer = (prevState = { book: {}, bookCopies: [] }, action) => {
           book => book.id !== action.payload
         ),
       }
-    case "BOOK_ADDED":
-      return {
-        ...prevState,
-        book: action.payload,
-      }
-    case "BOOK_ADDED_SUCCESFULLY":
-      return {
-        ...prevState,
-        book: action.payload,
-      }
     default:
       return prevState
   }
