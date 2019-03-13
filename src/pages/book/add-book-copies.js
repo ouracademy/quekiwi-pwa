@@ -17,7 +17,7 @@ const FormAddBookCopies = ({ id, getBookCopies }) => {
 
     getBookCopies({ id })
     return () => $book.unsubscribe()
-  })
+  }, [id, getBookCopies])
 
   return (
     <div>
