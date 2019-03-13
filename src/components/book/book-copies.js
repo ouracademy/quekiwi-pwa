@@ -144,7 +144,6 @@ const BookFeatures = ({ features = [], suggestions = [], changeFeatures }) => {
 
 const mapStateToProps = ({ book }) => ({
   bookCopies: book.bookCopies,
-  bookId: book.book.id,
 })
 
 export default connect(
