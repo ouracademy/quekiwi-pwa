@@ -1,34 +1,11 @@
 import { actionsCreator, actions } from "./actions"
+import { standardReducer } from "./reducer"
 
 export const getInitialState = options => ({
   loading: false,
   error: null,
   ...options.getInitialState(),
 })
-
-export const standardReducer = (types, initialState, stateOnSuccess) => (
-  prevState = initialState,
-  action
-) => {
-  const [REQUESTED, SUCCESSFULLY, FAILED] = types
-
-  const { type, payload } = action
-  switch (type) {
-    case REQUESTED:
-      return { ...prevState, loading: true, error: null }
-    case SUCCESSFULLY:
-      return {
-        ...prevState,
-        loading: false,
-        error: null,
-        ...stateOnSuccess(payload),
-      }
-    case FAILED:
-      return { ...prevState, loading: false, error: payload }
-    default:
-      return prevState
-  }
-}
 
 const defaultOptions = {
   getInitialState: () => ({}),

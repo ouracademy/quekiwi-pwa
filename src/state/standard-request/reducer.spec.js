@@ -1,4 +1,4 @@
-import { standardReducer } from "./index"
+import { standardReducer } from "./reducer"
 
 describe("reducer", () => {
   const reducer = standardReducer(["REQUESTED", "SUCCESSFULLY", "FAILED"])
