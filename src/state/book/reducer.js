@@ -3,16 +3,6 @@ const initialReducer = (prevState = { book: {}, bookCopies: [] }, action) => {
   const { type } = action
 
   switch (type) {
-    case "GET_BOOK":
-      // TODO: replace this, should not exist
-      return {
-        ...prevState,
-        book: {
-          ...action.payload,
-          title: "In reducer",
-          subtitle: "title of a reducer",
-        },
-      }
     case "BOOK_COPIES_REQUESTED":
       return prevState
     case "BOOK_COPIES_ADDED":
@@ -38,16 +28,6 @@ const initialReducer = (prevState = { book: {}, bookCopies: [] }, action) => {
         bookCopies: prevState.bookCopies.filter(
           book => book.id !== action.payload
         ),
-      }
-    case "BOOK_ADDED":
-      return {
-        ...prevState,
-        book: action.payload,
-      }
-    case "BOOK_ADDED_SUCCESFULLY":
-      return {
-        ...prevState,
-        book: action.payload,
       }
     default:
       return prevState
