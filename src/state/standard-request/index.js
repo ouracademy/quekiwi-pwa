@@ -1,5 +1,6 @@
 import { actionsCreator, actions } from "./actions"
 import { standardReducer } from "./reducer"
+import { standardEpic } from "./epic"
 
 export const getInitialState = options => ({
   loading: false,
@@ -22,5 +23,9 @@ export const getStandardRequestFor = (name, options = defaultOptions) => {
     options.stateOnSuccess
   )
 
-  return { actionTypes, actionCreators, reducer, initialState }
+  const [REQUESTED] = actionTypes
+  const [, actionSuccessFully, actionFailed] = actionCreators
+  const epicFrom = standardEpic(REQUESTED, actionSuccessFully, actionFailed)
+
+  return { actionTypes, actionCreators, reducer, initialState, epicFrom }
 }

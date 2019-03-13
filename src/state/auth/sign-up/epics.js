@@ -1,8 +1,3 @@
-import { SIGN_UP_REQUESTED, signUpFailed, signUpSuccessFully } from "./actions"
-import { standardEpic } from "../../standard-request/epic"
+import { epicFrom } from "./actions"
 
-export const signUpEpic = standardEpic(
-  SIGN_UP_REQUESTED,
-  signUpSuccessFully,
-  signUpFailed
-)("http://localhost:3000/auth/signup")
+export const signUpEpic = epicFrom("http://localhost:3000/auth/signup")

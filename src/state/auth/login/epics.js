@@ -1,8 +1,3 @@
-import { LOGIN_REQUESTED, loginFailed, loginSuccessFully } from "./actions"
-import { standardEpic } from "../../standard-request/epic"
+import { epicFrom } from "./actions"
 
-export const loginEpic = standardEpic(
-  LOGIN_REQUESTED,
-  loginSuccessFully,
-  loginFailed
-)("http://localhost:3000/auth/login")
+export const loginEpic = epicFrom("http://localhost:3000/auth/login")
