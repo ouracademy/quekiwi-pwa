@@ -1,9 +1,10 @@
 import React from "react"
 import { Router } from "@reach/router"
 import Layout from "../../components/layout"
+
 import { AddBookCopies } from "./add-book-copies"
 import { Search } from "./search"
-import { AddNewBook } from "./new"
+import { AddNewBook } from "./add-new-book"
 
 export default () => {
   return (
