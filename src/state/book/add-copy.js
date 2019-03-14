@@ -1,6 +1,5 @@
 import { getStandardRequestFor } from "../standard-request"
-
-export const initialState = { book: {}, bookCopies: [] }
+import { initialState } from "./initial-state"
 
 const { actionCreators, reducer, epicFrom } = getStandardRequestFor(
   "ADD_BOOK_COPY",
@@ -17,4 +16,4 @@ export const [addBookCopy] = actionCreators
 export { reducer }
 
 // FIXME: please put me a real url! 🙁
-export const addBookCopyEpic = epicFrom("http://localhost:3000/")
+export const addBookCopyEpic = epicFrom("http://localhost:3000/book-copies")

@@ -1,7 +1,9 @@
 import reduceReducers from "reduce-reducers"
-import { initialState, reducer as addCopyReducer } from "./add-copy"
+import { initialState } from "./initial-state"
+import { reducer as addCopyReducer } from "./add-copy"
+import { reducer as deleteCopyReducer } from "./delete-copy"
 
-const initialReducer = (prevState = { book: {}, bookCopies: [] }, action) => {
+const initialReducer = (prevState = initialState, action) => {
   const { type } = action
 
   switch (type) {
@@ -19,13 +21,6 @@ const initialReducer = (prevState = { book: {}, bookCopies: [] }, action) => {
         ...prevState,
         bookCopies: newData,
       }
-    case "BOOK_COPIES_DELETED":
-      return {
-        ...prevState,
-        bookCopies: prevState.bookCopies.filter(
-          book => book.id !== action.payload
-        ),
-      }
     default:
       return prevState
   }
@@ -34,5 +29,6 @@ const initialReducer = (prevState = { book: {}, bookCopies: [] }, action) => {
 export const books = reduceReducers(
   initialReducer,
   addCopyReducer,
+  deleteCopyReducer,
   initialState
 )

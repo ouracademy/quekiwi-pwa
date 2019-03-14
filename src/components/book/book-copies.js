@@ -2,8 +2,10 @@ import React, { useState } from "react"
 import { connect } from "react-redux"
 import { Add, Trash, Edit } from "grommet-icons"
 import { Form, FormField, Box, Button } from "grommet"
-import { saveBookCopie, deleteBookCopie } from "../../state/book/actions"
+import { saveBookCopie } from "../../state/book/actions"
 import { addBookCopy } from "../../state/book/add-copy"
+import { deleteBookCopy } from "../../state/book/delete-copy"
+
 import { suggestionsBasedCurrentFeatures } from "./feature-suggestions"
 import styled from "styled-components"
 
@@ -14,7 +16,7 @@ const FormFieldWidthAll = styled(FormField)`
   margin: 10px;
 `
 
-const BookCopies = ({ bookId, bookCopies, deleteBookCopie, addBookCopy }) => {
+const BookCopies = ({ bookId, bookCopies, deleteBookCopy, addBookCopy }) => {
   const [showForm, setShowForm] = useState(false)
 
   const add = bookCopy => {
@@ -39,22 +41,14 @@ const BookCopies = ({ bookId, bookCopies, deleteBookCopie, addBookCopy }) => {
       )}
       <Box direction="column" gap="small">
         {bookCopies.map(x => (
-          <BookCopie
-            key={x.id}
-            bookCopie={x}
-            deleteBookCopie={deleteBookCopie}
-          />
+          <BookCopie key={x.id} bookCopie={x} deleteBookCopy={deleteBookCopy} />
         ))}
       </Box>
     </Box>
   )
 }
 
-const BookCopie = ({ bookCopie, deleteBookCopie }) => {
-  const deleteCopie = () => {
-    deleteBookCopie(bookCopie.id)
-  }
-
+const BookCopie = ({ bookCopie, deleteBookCopy }) => {
   return (
     <Box direction="row" align="center">
       <Box width="medium">
@@ -64,7 +58,7 @@ const BookCopie = ({ bookCopie, deleteBookCopie }) => {
       </Box>
       <Box direction="row" justify="end" fill>
         <Button type="submit" icon={<Edit />} />
-        <Button icon={<Trash />} onClick={deleteCopie} />
+        <Button icon={<Trash />} onClick={() => deleteBookCopy(bookCopie.id)} />
       </Box>
     </Box>
   )
@@ -154,5 +148,5 @@ const mapStateToProps = ({ book }) => ({
 
 export default connect(
   mapStateToProps,
-  { addBookCopy, saveBookCopie, deleteBookCopie }
+  { addBookCopy, saveBookCopie, deleteBookCopy }
 )(BookCopies)
