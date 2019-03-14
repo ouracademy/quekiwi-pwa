@@ -12,7 +12,7 @@ export const standardReducer = (types, initialState, stateOnSuccess) => (
         ...prevState,
         loading: false,
         error: null,
-        ...stateOnSuccess(payload),
+        ...stateOnSuccess(payload, prevState),
       }
     case FAILED:
       return { ...prevState, loading: false, error: payload }

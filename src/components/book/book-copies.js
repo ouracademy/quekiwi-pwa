@@ -2,11 +2,8 @@ import React, { useState } from "react"
 import { connect } from "react-redux"
 import { Add, Trash, Edit } from "grommet-icons"
 import { Form, FormField, Box, Button } from "grommet"
-import {
-  addBookCopie,
-  saveBookCopie,
-  deleteBookCopie,
-} from "../../state/book/actions"
+import { saveBookCopie, deleteBookCopie } from "../../state/book/actions"
+import { addBookCopy } from "../../state/book/add-copy"
 import { suggestionsBasedCurrentFeatures } from "./feature-suggestions"
 import styled from "styled-components"
 
@@ -17,11 +14,11 @@ const FormFieldWidthAll = styled(FormField)`
   margin: 10px;
 `
 
-const BookCopies = ({ bookId, bookCopies, deleteBookCopie, addBookCopie }) => {
+const BookCopies = ({ bookId, bookCopies, deleteBookCopie, addBookCopy }) => {
   const [showForm, setShowForm] = useState(false)
 
   const add = bookCopy => {
-    addBookCopie({ bookId, id: new Date().getTime(), ...bookCopy })
+    addBookCopy({ bookId, ...bookCopy })
     setShowForm(false)
   }
 
@@ -148,5 +145,5 @@ const mapStateToProps = ({ book }) => ({
 
 export default connect(
   mapStateToProps,
-  { addBookCopie, saveBookCopie, deleteBookCopie }
+  { addBookCopy, saveBookCopie, deleteBookCopie }
 )(BookCopies)

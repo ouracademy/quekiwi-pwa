@@ -1,4 +1,5 @@
 import reduceReducers from "reduce-reducers"
+import { initialState, reducer as addCopyReducer } from "./add-copy"
 
 const initialReducer = (prevState = { book: {}, bookCopies: [] }, action) => {
   const { type } = action
@@ -6,11 +7,6 @@ const initialReducer = (prevState = { book: {}, bookCopies: [] }, action) => {
   switch (type) {
     case "BOOK_COPIES_REQUESTED":
       return prevState
-    case "BOOK_COPIES_ADDED":
-      return {
-        ...prevState,
-        bookCopies: [...prevState.bookCopies, action.payload],
-      }
     case "BOOK_COPIES_SAVED":
       const newData = prevState.bookCopies.map(book => {
         if (action.payload.id === book.id) {
@@ -35,5 +31,8 @@ const initialReducer = (prevState = { book: {}, bookCopies: [] }, action) => {
   }
 }
 
-const initialState = { book: {}, bookCopies: [] }
-export const books = reduceReducers(initialReducer, initialState)
+export const books = reduceReducers(
+  initialReducer,
+  addCopyReducer,
+  initialState
+)

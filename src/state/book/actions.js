@@ -3,11 +3,6 @@ export const getBookCopies = query => ({
   payload: query,
 })
 
-export const addBookCopie = data => ({
-  type: "BOOK_COPIES_ADDED",
-  payload: data,
-})
-
 export const saveBookCopie = data => ({
   type: "BOOK_COPIES_SAVED",
   payload: data,
