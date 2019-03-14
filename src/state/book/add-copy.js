@@ -1,5 +1,6 @@
 import { getStandardRequestFor } from "../standard-request"
 import { initialState } from "./initial-state"
+import { ajax } from "rxjs/ajax"
 
 const { actionCreators, reducer, epicFrom } = getStandardRequestFor(
   "ADD_BOOK_COPY",
@@ -15,5 +16,8 @@ export const [addBookCopy] = actionCreators
 
 export { reducer }
 
-// FIXME: please put me a real url! 🙁
-export const addBookCopyEpic = epicFrom("http://localhost:3000/book-copies")
+export const addBookCopyEpic = epicFrom((payload, auth) =>
+  ajax.post("http://localhost:3000/book-copies", payload, {
+    Authorization: `Bearer ${auth.token}`,
+  })
+)

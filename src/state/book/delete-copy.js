@@ -1,6 +1,7 @@
 import { getStandardRequestFor } from "../standard-request"
 
 import { initialState } from "./initial-state"
+import { ajax } from "rxjs/ajax"
 
 const { actionCreators, reducer, epicFrom } = getStandardRequestFor(
   "DELETE_BOOK_COPY",
@@ -19,7 +20,8 @@ export const [deleteBookCopy] = actionCreators
 
 export { reducer }
 
-// FIXME: please put me a real url! 🙁
-export const deleteBookCopyEpic = epicFrom(
-  "http://localhost:3000/book-copies/delete"
+export const deleteBookCopyEpic = epicFrom((auth, payload) =>
+  ajax.delete(`http://localhost:3000/book-copies/${payload.id}`, {
+    Authorization: `Bearer ${auth.token}`,
+  })
 )

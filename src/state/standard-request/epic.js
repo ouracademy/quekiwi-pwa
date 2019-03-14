@@ -1,17 +1,17 @@
 import { ofType } from "redux-observable"
-import { ajax } from "rxjs/ajax"
 import { mergeMap, map, catchError } from "rxjs/operators"
 import { of } from "rxjs"
 
+// TODO: use in state$ withLatestFrom for a more reactive approach
 export const standardEpic = (
   type,
   actionCreatorSuccess,
   actionCreatorFailed
-) => url => action$ =>
+) => request => (action$, state$) =>
   action$.pipe(
     ofType(type),
     mergeMap(action =>
-      ajax.post(url, action.payload).pipe(
+      request(action.payload, state$.value.auth).pipe(
         map(actionCreatorSuccess),
         catchError(error => of(actionCreatorFailed(error)))
       )
