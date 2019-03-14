@@ -31,7 +31,12 @@ const BookCopies = ({ bookId, bookCopies, deleteBookCopie, addBookCopy }) => {
           onClick={() => setShowForm(true)}
         />
       </Box>
-      {showForm && <FormBookCopie saveBookCopie={add} />}
+      {showForm && (
+        <FormBookCopie
+          saveBookCopie={add}
+          cancelRegister={() => setShowForm(false)}
+        />
+      )}
       <Box direction="column" gap="small">
         {bookCopies.map(x => (
           <BookCopie
@@ -53,7 +58,8 @@ const BookCopie = ({ bookCopie, deleteBookCopie }) => {
   return (
     <Box direction="row" align="center">
       <Box width="medium">
-        {bookCopie.quantity} {bookCopie.features.map(x => x.name).join(", ")} a
+        {bookCopie.quantity}{" "}
+        {bookCopie.features && bookCopie.features.map(x => x.name).join(", ")} a
         s/. {bookCopie.price}
       </Box>
       <Box direction="row" justify="end" fill>
@@ -64,7 +70,7 @@ const BookCopie = ({ bookCopie, deleteBookCopie }) => {
   )
 }
 
-const FormBookCopie = ({ bookCopie = {}, saveBookCopie }) => {
+const FormBookCopie = ({ bookCopie = {}, saveBookCopie, cancelRegister }) => {
   const [features, setFeatures] = useState(bookCopie.features || [])
   const [suggestions, setSuggestions] = useState(
     suggestionsBasedCurrentFeatures(features)
@@ -109,7 +115,10 @@ const FormBookCopie = ({ bookCopie = {}, saveBookCopie }) => {
               step="1"
             />
           </Box>
-          <Button type="submit" label="Guardar" />
+          <Box direction="row" justify="end" basis="full" gap="small">
+            <Button type="submit" label="Guardar" />
+            <Button onClick={cancelRegister} label="Cancelar" />
+          </Box>
         </Box>
       </Form>
     </Box>
