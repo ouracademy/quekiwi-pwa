@@ -1,6 +1,6 @@
 import { getStandardRequestFor } from "../standard-request"
 import { authStandardOptions } from "./standard-options"
-import { ajax } from "rxjs/ajax"
+import { api } from "../standard-request/api"
 
 const { actionCreators, reducer, epicFrom } = getStandardRequestFor(
   "SIGN_UP",
@@ -10,6 +10,4 @@ const { actionCreators, reducer, epicFrom } = getStandardRequestFor(
 export const [signUp] = actionCreators
 
 export { reducer }
-export const signUpEpic = epicFrom(payload =>
-  ajax.post("http://localhost:3000/auth/signup", payload)
-)
+export const signUpEpic = epicFrom(api.post("auth/signup"))
