@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { Books } from "../../components/book/list"
 import { getBooks } from "../../state/book/get-books"
+import { navigate } from "@reach/router"
 
 const ListBooks = ({ getBooks, books = [] }) => {
   useEffect(() => {
     getBooks()
   }, [getBooks])
-  const onChooseBook = book => {
-    console.log("get book", book)
+  const onChooseBook = id => {
+    navigate(`/book/${id}`)
   }
   return (
     <div>
