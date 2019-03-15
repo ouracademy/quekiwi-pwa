@@ -7,11 +7,11 @@ export const standardEpic = (
   type,
   actionCreatorSuccess,
   actionCreatorFailed
-) => request => (action$, state$) =>
+) => request => action$ =>
   action$.pipe(
     ofType(type),
     mergeMap(action =>
-      request(action.payload, state$.value.auth).pipe(
+      request(action.payload).pipe(
         map(actionCreatorSuccess),
         catchError(error => of(actionCreatorFailed(error)))
       )
