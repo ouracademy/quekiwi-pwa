@@ -3,6 +3,7 @@ import { initialState } from "./initial-state"
 import { reducer as addCopyReducer } from "./add-copy"
 import { reducer as deleteCopyReducer } from "./delete-copy"
 import { reducer as editCopyReducer } from "./edit-copy"
+import { reducer as getBooksReducer } from "./get-books"
 
 const initialReducer = (prevState = initialState, action) => {
   const { type } = action
@@ -20,5 +21,6 @@ export const books = reduceReducers(
   addCopyReducer,
   deleteCopyReducer,
   editCopyReducer,
+  getBooksReducer,
   initialState
 )
