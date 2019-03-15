@@ -13,6 +13,7 @@ const DashBoard = () => (
   <div>
     <h1>Mis libros</h1>
     <Link to="/book/register/search">Agregar un nuevo libro</Link>
+    <Link to="/book/list">Ver mis libros</Link>
     {/* TODO: search my books */}
   </div>
 )

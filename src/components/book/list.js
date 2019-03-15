@@ -2,8 +2,8 @@ import React from "react"
 import { Box, Heading, Text } from "grommet"
 export const Books = ({ books, onChooseBook }) => (
   <Box justify="center" pad="small" gap="small" direction="column">
-    {books.map(book => (
-      <Book key={book.id} {...book} onChooseBook={onChooseBook} />
+    {books.map((book, index) => (
+      <Book key={"key" + index} {...book} onChooseBook={onChooseBook} />
     ))}
   </Box>
 )

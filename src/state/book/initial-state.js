@@ -1,1 +1,1 @@
-export const initialState = { book: {}, bookCopies: [] }
+export const initialState = { book: {}, books: [], bookCopies: [] }

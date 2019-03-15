@@ -36,7 +36,9 @@ const FormAddBookCopies = ({ id, getBookCopies }) => {
 }
 
 const getBook = id => {
-  return api.get(`books/short-info/${id}`).pipe(pluck("response"))
+  return api
+    .get(`books/short-info/${id}`)()
+    .pipe(pluck("response"))
 }
 
 export const AddBookCopies = connect(

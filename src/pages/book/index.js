@@ -5,7 +5,7 @@ import Layout from "../../components/layout"
 import { AddBookCopies } from "./add-book-copies"
 import { Search } from "./search"
 import { AddNewBook } from "./add-new-book"
-
+import ListBooks from "./list-books"
 export default () => {
   return (
     <Layout>
@@ -17,6 +17,7 @@ export default () => {
             <AddBookCopies path="/:id/copies" />
           </Register>
           <BookDetail path=":id" />
+          <ListBooks path="list" />
         </Root>
       </Router>
     </Layout>

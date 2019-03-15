@@ -82,9 +82,13 @@ const SearchContent = ({ books, onChooseBook, searchTerm }) => (
 )
 
 const getSuggestions = title => {
-  return api.get(`books/autocomplete?title=${title}`).pipe(pluck("response"))
+  return api
+    .get(`books/autocomplete?title=${title}`)()
+    .pipe(pluck("response"))
 }
 
 const findByTitle = title => {
-  return api.get(`books/short-info?title=${title}`).pipe(pluck("response"))
+  return api
+    .get(`books/short-info?title=${title}`)()
+    .pipe(pluck("response"))
 }

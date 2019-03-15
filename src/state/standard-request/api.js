@@ -5,7 +5,7 @@ const defaultGetHeaders = () => undefined
 
 // create an http REST client with base headers
 const apiFrom = (baseUrl, getHeaders = defaultGetHeaders) => ({
-  get: url => ajax.get(`${baseUrl}/${url}`, getHeaders()),
+  get: url => query => ajax.get(`${baseUrl}/${url}`, getHeaders()),
   post: url => body => ajax.post(`${baseUrl}/${url}`, body, getHeaders()),
   patch: url => body => ajax.patch(`${baseUrl}/${url}`, body, getHeaders()),
   delete: url => ({ id }) =>
