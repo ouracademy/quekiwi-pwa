@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react"
 import { Box, Text } from "grommet"
 import { navigate, Link } from "@reach/router"
-import { ajax } from "rxjs/ajax"
 import { SearchInput } from "../../components/search-input"
 import { pluck } from "rxjs/operators"
 import { Books } from "../../components/book/list"
 import * as queryString from "query-string"
+import { api } from "../../state/standard-request/api"
 
 const [existBooks, emptyBooks] = [
   {
@@ -82,13 +82,9 @@ const SearchContent = ({ books, onChooseBook, searchTerm }) => (
 )
 
 const getSuggestions = title => {
-  return ajax
-    .get(`http://localhost:3000/books/autocomplete?title=${title}`)
-    .pipe(pluck("response"))
+  return api.get(`books/autocomplete?title=${title}`).pipe(pluck("response"))
 }
 
 const findByTitle = title => {
-  return ajax
-    .get(`http://localhost:3000/books/short-info?title=${title}`)
-    .pipe(pluck("response"))
+  return api.get(`books/short-info?title=${title}`).pipe(pluck("response"))
 }

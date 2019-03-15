@@ -4,8 +4,8 @@ import { Heading } from "grommet"
 import BookCopies from "../../components/book/book-copies"
 import { getBookCopies } from "../../state/book/actions"
 
-import { ajax } from "rxjs/ajax"
 import { pluck } from "rxjs/operators"
+import { api } from "../../state/standard-request/api"
 
 const FormAddBookCopies = ({ id, getBookCopies }) => {
   const [book, setBook] = useState(null)
@@ -36,9 +36,7 @@ const FormAddBookCopies = ({ id, getBookCopies }) => {
 }
 
 const getBook = id => {
-  return ajax
-    .get(`http://localhost:3000/books/short-info/${id}`)
-    .pipe(pluck("response"))
+  return api.get(`books/short-info/${id}`).pipe(pluck("response"))
 }
 
 export const AddBookCopies = connect(

@@ -1,12 +1,14 @@
 import React from "react"
 import { Form, FormField, Box, Button, Heading } from "grommet"
 import { navigate } from "@reach/router"
-import { ajax } from "rxjs/ajax"
 import { pluck } from "rxjs/operators"
 import * as queryString from "query-string"
+import { api } from "../../state/standard-request/api"
 
 const addBook = book =>
-  ajax.post("http://localhost:3000/books", book).pipe(pluck("response"))
+  api
+    .post("books")(book)
+    .pipe(pluck("response"))
 
 export const AddNewBook = ({ location }) => {
   const queryParams = queryString.parse(location.search)
