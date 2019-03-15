@@ -5,6 +5,7 @@ import { Form, FormField, Box, Button } from "grommet"
 import { saveBookCopie } from "../../state/book/actions"
 import { addBookCopy } from "../../state/book/add-copy"
 import { deleteBookCopy } from "../../state/book/delete-copy"
+import { editBookCopy } from "../../state/book/edit-copy"
 
 import { suggestionsBasedCurrentFeatures } from "./feature-suggestions"
 import styled from "styled-components"
@@ -16,12 +17,22 @@ const FormFieldWidthAll = styled(FormField)`
   margin: 10px;
 `
 
-const BookCopies = ({ bookId, bookCopies, deleteBookCopy, addBookCopy }) => {
+const BookCopies = ({
+  bookId,
+  bookCopies,
+  deleteBookCopy,
+  addBookCopy,
+  editBookCopy,
+}) => {
   const [showForm, setShowForm] = useState(false)
-
-  const add = bookCopy => {
-    addBookCopy({ bookId, ...bookCopy })
+  const [valueCurrentForm, setValueCurrentForm] = useState({})
+  const save = bookCopy => {
+    bookCopy.id ? editBookCopy(bookCopy) : addBookCopy({ bookId, ...bookCopy })
     setShowForm(false)
+  }
+  const showFormToEdit = bookCopy => {
+    setShowForm(true)
+    setValueCurrentForm(bookCopy)
   }
 
   return (
@@ -35,20 +46,26 @@ const BookCopies = ({ bookId, bookCopies, deleteBookCopy, addBookCopy }) => {
       </Box>
       {showForm && (
         <FormBookCopie
-          saveBookCopie={add}
+          bookCopie={valueCurrentForm}
+          saveBookCopie={save}
           cancelRegister={() => setShowForm(false)}
         />
       )}
       <Box direction="column" gap="small">
         {bookCopies.map(x => (
-          <BookCopie key={x.id} bookCopie={x} deleteBookCopy={deleteBookCopy} />
+          <BookCopie
+            key={x.id}
+            bookCopie={x}
+            deleteBookCopy={deleteBookCopy}
+            showFormToEdit={showFormToEdit}
+          />
         ))}
       </Box>
     </Box>
   )
 }
 
-const BookCopie = ({ bookCopie, deleteBookCopy }) => {
+const BookCopie = ({ bookCopie, deleteBookCopy, showFormToEdit }) => {
   return (
     <Box direction="row" align="center">
       <Box width="medium">
@@ -57,7 +74,12 @@ const BookCopie = ({ bookCopie, deleteBookCopy }) => {
         s/. {bookCopie.price}
       </Box>
       <Box direction="row" justify="end" fill>
-        <Button type="submit" icon={<Edit />} />
+        <Button
+          icon={<Edit />}
+          onClick={() => {
+            showFormToEdit(bookCopie)
+          }}
+        />
         <Button
           icon={<Trash />}
           onClick={() => {
@@ -153,5 +175,5 @@ const mapStateToProps = ({ book }) => ({
 
 export default connect(
   mapStateToProps,
-  { addBookCopy, saveBookCopie, deleteBookCopy }
+  { addBookCopy, saveBookCopie, deleteBookCopy, editBookCopy }
 )(BookCopies)
