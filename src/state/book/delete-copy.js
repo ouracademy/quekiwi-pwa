@@ -10,7 +10,7 @@ const { actionCreators, reducer, epicFrom } = getStandardRequestFor(
     stateOnSuccess: (payload, prevState) => {
       return {
         ...prevState,
-        bookCopies: prevState.bookCopies.filter(book => book.id !== payload),
+        bookCopies: prevState.bookCopies.filter(book => book.id !== payload.id),
       }
     },
   }
@@ -20,8 +20,8 @@ export const [deleteBookCopy] = actionCreators
 
 export { reducer }
 
-export const deleteBookCopyEpic = epicFrom((auth, payload) =>
-  ajax.delete(`http://localhost:3000/book-copies/${payload.id}`, {
+export const deleteBookCopyEpic = epicFrom((payload, auth) => {
+  return ajax.delete(`http://localhost:3000/book-copies/${payload.id}`, {
     Authorization: `Bearer ${auth.token}`,
   })
-)
+})

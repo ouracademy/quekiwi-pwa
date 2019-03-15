@@ -58,7 +58,12 @@ const BookCopie = ({ bookCopie, deleteBookCopy }) => {
       </Box>
       <Box direction="row" justify="end" fill>
         <Button type="submit" icon={<Edit />} />
-        <Button icon={<Trash />} onClick={() => deleteBookCopy(bookCopie.id)} />
+        <Button
+          icon={<Trash />}
+          onClick={() => {
+            deleteBookCopy({ id: bookCopie.id })
+          }}
+        />
       </Box>
     </Box>
   )
