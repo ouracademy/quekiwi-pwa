@@ -3,12 +3,13 @@ const rules = {
   color: { unique: true },
   any: { unique: false },
 }
+
 const allSuggestions = [
-  { name: "Usado", type: "time" },
-  { name: "Nuevo", type: "time" },
-  { name: "Hoja blanca", type: "color" },
-  { name: "Hoja bulqui", type: "color" },
-  { name: "Tapa dura", type: "any" },
+  { id: 1, name: "Usado", type: "time" },
+  { id: 2, name: "Nuevo", type: "time" },
+  { id: 3, name: "Hoja blanca", type: "color" },
+  { id: 4, name: "Hoja bulqui", type: "color" },
+  { id: 5, name: "Tapa dura", type: "any" },
 ]
 
 export const suggestionsBasedCurrentFeatures = features => {
