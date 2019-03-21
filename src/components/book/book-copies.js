@@ -150,8 +150,8 @@ const BookFeatures = ({ features = [], suggestions = [], changeFeatures }) => {
     changeFeatures(features.filter((tag, i) => i !== index))
   }
 
-  const handleAddition = ({ name, type = "any" }) => {
-    changeFeatures([...features, { name, type }])
+  const handleAddition = feature => {
+    changeFeatures([...features, feature])
   }
 
   return (
