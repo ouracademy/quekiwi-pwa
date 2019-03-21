@@ -2,7 +2,6 @@ import React, { useState } from "react"
 import { connect } from "react-redux"
 import { Add, Trash, Edit } from "grommet-icons"
 import { Form, FormField, Box, Button } from "grommet"
-import { saveBookCopie } from "../../state/book/actions"
 import { addBookCopy } from "../../state/book/add-copy"
 import { deleteBookCopy } from "../../state/book/delete-copy"
 import { editBookCopy } from "../../state/book/edit-copy"
@@ -47,7 +46,7 @@ const BookCopies = ({
       {showForm && (
         <FormBookCopie
           bookCopie={valueCurrentForm}
-          saveBookCopie={save}
+          save={save}
           cancelRegister={() => setShowForm(false)}
         />
       )}
@@ -91,14 +90,14 @@ const BookCopie = ({ bookCopie, deleteBookCopy, showFormToEdit }) => {
   )
 }
 
-const FormBookCopie = ({ bookCopie = {}, saveBookCopie, cancelRegister }) => {
+const FormBookCopie = ({ bookCopie = {}, save, cancelRegister }) => {
   const [features, setFeatures] = useState(bookCopie.features || [])
   const [suggestions, setSuggestions] = useState(
     suggestionsBasedCurrentFeatures(features)
   )
 
   const submitCopie = ({ value }) => {
-    saveBookCopie({ ...bookCopie, ...value, features: features })
+    save({ ...bookCopie, ...value, features })
   }
 
   const changeFeatures = features => {
@@ -175,5 +174,5 @@ const mapStateToProps = ({ book }) => ({
 
 export default connect(
   mapStateToProps,
-  { addBookCopy, saveBookCopie, deleteBookCopy, editBookCopy }
+  { addBookCopy, deleteBookCopy, editBookCopy }
 )(BookCopies)
